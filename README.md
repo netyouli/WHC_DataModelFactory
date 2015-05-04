@@ -4,3 +4,9 @@
  *  gitHub:https://github.com/netyouli
  *  csdn:http://blog.csdn.net/windwhc/article/category/3117381
  */
+
+####Example Image One
+ ![image](https://github.com/netyouli/WHC_DataModelFactory/tree/master/WHC_DataModelFactory/WHCLib/image1.jag)
+ 
+####Example Image Two
+ ![image](https://github.com/netyouli/WHC_DataModelFactory/tree/master/WHC_DataModelFactory/WHCLib/image2.jag)
