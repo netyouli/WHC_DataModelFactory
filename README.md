@@ -6,7 +6,9 @@
  */
 
 ####Example Image One
- ![image](https://github.com/netyouli/WHC_DataModelFactory/tree/master/WHC_DataModelFactory/WHCLib/image1.jag)
+
+ ![image](https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/WHCLib/image1.jpg)
  
 ####Example Image Two
- ![image](https://github.com/netyouli/WHC_DataModelFactory/tree/master/WHC_DataModelFactory/WHCLib/image2.jag)
+
+ ![image](https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/WHCLib/image2.jpg)
