@@ -13,6 +13,7 @@
 		C3D4D80A1AF1D769004DE109 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3D4D8091AF1D769004DE109 /* Images.xcassets */; };
 		C3D4D80D1AF1D769004DE109 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3D4D80B1AF1D769004DE109 /* Main.storyboard */; };
 		C3D4D8191AF1D769004DE109 /* WHC_DataModelFactoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D4D8181AF1D769004DE109 /* WHC_DataModelFactoryTests.m */; };
+		C3D4D82C1AF1D9DB004DE109 /* WHC_XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,8 @@
 		C3D4D8121AF1D769004DE109 /* WHC_DataModelFactoryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WHC_DataModelFactoryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D4D8171AF1D769004DE109 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3D4D8181AF1D769004DE109 /* WHC_DataModelFactoryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WHC_DataModelFactoryTests.m; sourceTree = "<group>"; };
+		C3D4D8281AF1D9DB004DE109 /* WHC_XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_XMLParser.h; sourceTree = "<group>"; };
+		C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHC_XMLParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 		C3D4D7FE1AF1D769004DE109 /* WHC_DataModelFactory */ = {
 			isa = PBXGroup;
 			children = (
+				C3D4D8231AF1D9DB004DE109 /* WHCLib */,
 				C3D4D8011AF1D769004DE109 /* AppDelegate.h */,
 				C3D4D8021AF1D769004DE109 /* AppDelegate.m */,
 				C3D4D8061AF1D769004DE109 /* ViewController.h */,
@@ -114,6 +118,15 @@
 				C3D4D8171AF1D769004DE109 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C3D4D8231AF1D9DB004DE109 /* WHCLib */ = {
+			isa = PBXGroup;
+			children = (
+				C3D4D8281AF1D9DB004DE109 /* WHC_XMLParser.h */,
+				C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */,
+			);
+			path = WHCLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3D4D82C1AF1D9DB004DE109 /* WHC_XMLParser.m in Sources */,
 				C3D4D8081AF1D769004DE109 /* ViewController.m in Sources */,
 				C3D4D8051AF1D769004DE109 /* main.m in Sources */,
 				C3D4D8031AF1D769004DE109 /* AppDelegate.m in Sources */,
