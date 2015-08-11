@@ -99,6 +99,12 @@
                     [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
                 }else if ([subObject isKindOfClass:[NSNumber class]]){
                     [property appendFormat:kWHC_PROPERTY,@"NSNumber",keyArr[i]];
+                }else{
+                    if(subObject == nil){
+                        [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
+                    }else if([subObject isKindOfClass:[NSNull class]]){
+                        [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
+                    }
                 }
             }
         }else if ([object isKindOfClass:[NSArray class]]){
