@@ -15,11 +15,12 @@
 
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
+#import <objc/runtime.h>
 
 #define kWHC_DEFAULT_CLASS_NAME @("WHC")
-#define kWHC_CLASS       @("\n@interface %@ :NSObject\n\n%@\n@end\n\n")
+#define kWHC_CLASS       @("\n@interface %@ :NSObject\n%@\n@end\n")
 #define kWHC_PROPERTY    @("@property (nonatomic , strong) %@              * %@;\n")
-#define kWHC_CLASS_M     @("@implementation %@\n\n@end\n\n")
+#define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
 
 @interface ViewController (){
     NSMutableString       *   _classString;        //存类头文件内容
@@ -89,12 +90,14 @@
             for (NSInteger i = 0; i < count; i++) {
                 id subObject = dict[keyArr[i]];
                 if([subObject isKindOfClass:[NSDictionary class]]){
+                    NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     [property appendFormat:kWHC_PROPERTY,keyArr[i],keyArr[i]];
-                    [_classString appendFormat:kWHC_CLASS,keyArr[i],[self handleDataEngine:subObject key:keyArr[i]]];
+                    [_classString appendFormat:kWHC_CLASS,keyArr[i],classContent];
                     [_classMString appendFormat:kWHC_CLASS_M,keyArr[i]];
                 }else if ([subObject isKindOfClass:[NSArray class]]){
+                    NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     [property appendFormat:kWHC_PROPERTY,@"NSArray",keyArr[i]];
-                    [_classString appendFormat:kWHC_CLASS,keyArr[i],[self handleDataEngine:subObject key:keyArr[i]]];
+                    [_classString appendFormat:kWHC_CLASS,keyArr[i],classContent];
                     [_classMString appendFormat:kWHC_CLASS_M,keyArr[i]];
                 }else if ([subObject isKindOfClass:[NSString class]]){
                     [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
@@ -112,9 +115,24 @@
             NSArray  * dictArr = object;
             NSUInteger  count = dictArr.count;
             if(count){
-                id subObject = dictArr[0];
-                [property appendString:[self handleDataEngine:subObject key:key]];
+                NSObject  * tempObject = dictArr[0];
+                for (NSInteger i = 0; i < dictArr.count; i++) {
+                    NSObject * subObject = dictArr[i];
+                    if([subObject isKindOfClass:[NSDictionary class]]){
+                        if(((NSDictionary *)subObject).count > ((NSDictionary *)tempObject).count){
+                            tempObject = subObject;
+                        }
+                    }
+                    if([subObject isKindOfClass:[NSDictionary class]]){
+                        if(((NSArray *)subObject).count > ((NSArray *)tempObject).count){
+                            tempObject = subObject;
+                        }
+                    }
+                }
+                [property appendString:[self handleDataEngine:tempObject key:key]];
             }
+        }else{
+            NSLog(@"key = %@",key);
         }
         return property;
     }
