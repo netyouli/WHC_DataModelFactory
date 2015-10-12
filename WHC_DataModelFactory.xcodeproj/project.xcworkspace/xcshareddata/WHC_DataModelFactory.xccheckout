@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>74AACD06-0BB9-4054-85FB-FBB94E879263</string>
 	<key>IDESourceControlProjectName</key>
-	<string>WHC_DataModelFactory</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>088AC0207E7A2F2A264A276A84BCA7AFBE855AFA</key>
 		<string>https://github.com/netyouli/WHC_DataModelFactory.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>WHC_DataModelFactory.xcodeproj</string>
+	<string>WHC_DataModelFactory.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>088AC0207E7A2F2A264A276A84BCA7AFBE855AFA</key>
