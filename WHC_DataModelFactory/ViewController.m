@@ -126,7 +126,7 @@
                     if(_checkBox.state == 0){
                         [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSString"];
+                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"String"];
                     }
                 }else if ([subObject isKindOfClass:[NSNumber class]]){
                     if(_checkBox.state == 0){
@@ -139,13 +139,13 @@
                         if(_checkBox.state == 0){
                             [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
                         }else{
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSString"];
+                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"String"];
                         }
                     }else if([subObject isKindOfClass:[NSNull class]]){
                         if(_checkBox.state == 0){
                             [property appendFormat:kWHC_PROPERTY,@"NSString",keyArr[i]];
                         }else{
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSString"];
+                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"String"];
                         }
                     }
                 }
