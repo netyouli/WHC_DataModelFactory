@@ -23,7 +23,7 @@
 #define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
 
 
-#define kSWHC_CLASS @("\nclass %@ :NSObject{\n%@\n}")
+#define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}")
 #define kSWHC_PROPERTY @("var %@: %@!;\n")
 @interface ViewController (){
     NSMutableString       *   _classString;        //存类头文件内容
@@ -80,7 +80,7 @@
             [_classMString appendFormat:kWHC_CLASS_M,className];
             [_classString appendFormat:kWHC_CLASS,className,[self handleDataEngine:dict key:@""]];
         }else{
-            [_classString appendFormat:kSWHC_CLASS,className,[self handleDataEngine:dict key:@""]];
+            [_classString appendFormat:kSWHC_CLASS,className,className,[self handleDataEngine:dict key:@""]];
         }
         _classField.stringValue = _classString;
         _classMField.stringValue = _classMString;
@@ -110,7 +110,7 @@
                         [_classMString appendFormat:kWHC_CLASS_M,keyArr[i]];
                     }else{
                         [property appendFormat:kSWHC_PROPERTY,keyArr[i],keyArr[i]];
-                        [_classString appendFormat:kSWHC_CLASS,keyArr[i],classContent];
+                        [_classString appendFormat:kSWHC_CLASS,keyArr[i],keyArr[i],classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSArray class]]){
                     NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
@@ -120,7 +120,7 @@
                         [_classMString appendFormat:kWHC_CLASS_M,keyArr[i]];
                     }else{
                         [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSArray"];
-                        [_classString appendFormat:kSWHC_CLASS,keyArr[i],classContent];
+                        [_classString appendFormat:kSWHC_CLASS,keyArr[i],keyArr[i],classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
                     if(_checkBox.state == 0){
