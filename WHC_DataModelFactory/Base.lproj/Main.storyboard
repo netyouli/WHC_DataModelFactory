@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -673,7 +673,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hTW-08-MJY">
-                                <rect key="frame" x="542" y="13" width="122" height="19"/>
+                                <rect key="frame" x="542" y="8" width="122" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="快速生成" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="REa-zu-QpT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="18" name="STHeitiSC-Light"/>
@@ -684,17 +684,17 @@
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oTl-Uo-gv7">
                                 <rect key="frame" x="15" y="520" width="658" height="32"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" placeholderString="请输入类名" drawsBackground="YES" id="foN-eE-qMn">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" placeholderString="请输入类名" id="foN-eE-qMn">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" red="0.14901960780000001" green="0.43137254899999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wpf-93-eRx">
-                                <rect key="frame" x="15" y="367" width="658" height="148"/>
-                                <textFieldCell key="cell" lineBreakMode="truncatingMiddle" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="请输入Json或者Xml数据" drawsBackground="YES" id="nqO-Ef-IHm">
+                                <rect key="frame" x="15" y="367" width="658" height="154"/>
+                                <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="请输入Json或者Xml数据" id="nqO-Ef-IHm">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" red="0.23137254900000001" green="0.71372549019999998" blue="0.08235294118" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
@@ -702,7 +702,7 @@
                                 <rect key="frame" x="15" y="33" width="431" height="336"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="自动生成对象模型类头文件" drawsBackground="YES" allowsEditingTextAttributes="YES" id="cHQ-X9-I8S">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" red="0.14901960780000001" green="0.43137254899999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
@@ -710,7 +710,7 @@
                                 <rect key="frame" x="444" y="33" width="229" height="336"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="自动生成对象模型类源文件" drawsBackground="YES" id="SKi-wd-jrG">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" red="0.14901960780000001" green="0.43137254899999999" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
@@ -728,10 +728,10 @@
                     </view>
                     <connections>
                         <outlet property="checkBox" destination="Vcv-YX-8dR" id="0WC-gS-FTd"/>
-                        <outlet property="classField" destination="5Wz-CP-680" id="eUe-6b-IrM"/>
-                        <outlet property="classMField" destination="97C-0S-CaI" id="LXt-eE-aCH"/>
+                        <outlet property="classField" destination="5Wz-CP-680" id="1pb-gA-Pay"/>
+                        <outlet property="classMField" destination="97C-0S-CaI" id="1kg-Sk-Eaa"/>
                         <outlet property="classNameField" destination="oTl-Uo-gv7" id="F2K-5t-3rC"/>
-                        <outlet property="jsonField" destination="wpf-93-eRx" id="thi-y0-rja"/>
+                        <outlet property="jsonField" destination="wpf-93-eRx" id="QYG-ZB-EaG"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

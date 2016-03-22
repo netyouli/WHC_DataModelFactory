@@ -41,7 +41,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     _classString = [NSMutableString new];
     _classMString = [NSMutableString new];
     _classField.editable = NO;
