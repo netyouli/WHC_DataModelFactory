@@ -124,11 +124,11 @@
                 }else if ([subObject isKindOfClass:[NSArray class]]){
                     NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     if(_checkBox.state == 0){
-                        [property appendFormat:kWHC_PROPERTY('s'),@"NSArray",keyArr[i]];
+                        [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],keyArr[i]];
                         [_classString appendFormat:kWHC_CLASS,className,classContent];
                         [_classMString appendFormat:kWHC_CLASS_M,className];
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSArray"];
+                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],[NSString stringWithFormat:@"NSArray<%@>",className]];
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
