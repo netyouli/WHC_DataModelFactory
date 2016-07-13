@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -683,8 +683,16 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oTl-Uo-gv7">
-                                <rect key="frame" x="15" y="520" width="658" height="32"/>
+                                <rect key="frame" x="15" y="520" width="431" height="32"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" placeholderString="请输入类名" id="foN-eE-qMn">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" red="0.14901960780000001" green="0.43137254899999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y3p-7l-ieU">
+                                <rect key="frame" x="563" y="520" width="109" height="32"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" placeholderString="请输入类前缀名" id="p0f-c2-2Jk">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" red="0.14901960780000001" green="0.43137254899999999" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -724,6 +732,14 @@
                                     <action selector="clickRadioButtone:" target="XfG-lQ-9wD" id="NTP-F3-oEr"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DJg-qB-lzS">
+                                <rect key="frame" x="452" y="528" width="112" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="自定义模型类前缀:" id="QQd-Ya-63e">
+                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -731,6 +747,7 @@
                         <outlet property="classField" destination="5Wz-CP-680" id="1pb-gA-Pay"/>
                         <outlet property="classMField" destination="97C-0S-CaI" id="1kg-Sk-Eaa"/>
                         <outlet property="classNameField" destination="oTl-Uo-gv7" id="F2K-5t-3rC"/>
+                        <outlet property="classPrefixField" destination="Y3p-7l-ieU" id="RHn-lf-6z1"/>
                         <outlet property="jsonField" destination="wpf-93-eRx" id="QYG-ZB-EaG"/>
                     </connections>
                 </viewController>

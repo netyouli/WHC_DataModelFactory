@@ -28,12 +28,14 @@
 @interface ViewController (){
     NSMutableString       *   _classString;        //存类头文件内容
     NSMutableString       *   _classMString;       //存类源文件内容
+    NSString              *   _classPrefixName;    //类前缀
 }
 
 @property (nonatomic , strong)IBOutlet  NSTextField  * classNameField;
 @property (nonatomic , strong)IBOutlet  NSTextField  * jsonField;
 @property (nonatomic , strong)IBOutlet  NSTextField  * classField;
 @property (nonatomic , strong)IBOutlet  NSTextField  * classMField;
+@property (nonatomic , strong)IBOutlet  NSTextField  * classPrefixField;
 @property (nonatomic , strong)IBOutlet  NSButton       * checkBox;
 @end
 
@@ -59,6 +61,7 @@
     [_classMString deleteCharactersInRange:NSMakeRange(0, _classMString.length)];
     NSString  * className = _classNameField.stringValue;
     NSString  * json = _jsonField.stringValue;
+    _classPrefixName = _classPrefixField.stringValue == nil ? @"" : _classPrefixField.stringValue;
     if(className == nil){
         className = kWHC_DEFAULT_CLASS_NAME;
     }
@@ -92,6 +95,12 @@
     }
 }
 
+- (NSString *)handleAfterClassName:(NSString *)className {
+    NSString * first = [className substringToIndex:1];
+    NSString * other = [className substringFromIndex:1];
+    return [NSString stringWithFormat:@"%@%@%@",_classPrefixName,[first uppercaseString],other];
+}
+
 - (NSString*)handleDataEngine:(id)object key:(NSString*)key{
     if(object){
         NSMutableString  * property = [NSMutableString new];
@@ -101,25 +110,26 @@
             NSArray       * keyArr = [dict allKeys];
             for (NSInteger i = 0; i < count; i++) {
                 id subObject = dict[keyArr[i]];
+                NSString * className = [self handleAfterClassName:keyArr[i]];
                 if([subObject isKindOfClass:[NSDictionary class]]){
                     NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     if(_checkBox.state == 0){
-                        [property appendFormat:kWHC_PROPERTY('s'),keyArr[i],keyArr[i]];
-                        [_classString appendFormat:kWHC_CLASS,keyArr[i],classContent];
-                        [_classMString appendFormat:kWHC_CLASS_M,keyArr[i]];
+                        [property appendFormat:kWHC_PROPERTY('s'),className,keyArr[i]];
+                        [_classString appendFormat:kWHC_CLASS,className,classContent];
+                        [_classMString appendFormat:kWHC_CLASS_M,className];
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],keyArr[i]];
-                        [_classString appendFormat:kSWHC_CLASS,keyArr[i],keyArr[i],classContent];
+                        [property appendFormat:kSWHC_PROPERTY,className,keyArr[i]];
+                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSArray class]]){
                     NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     if(_checkBox.state == 0){
                         [property appendFormat:kWHC_PROPERTY('s'),@"NSArray",keyArr[i]];
-                        [_classString appendFormat:kWHC_CLASS,keyArr[i],classContent];
-                        [_classMString appendFormat:kWHC_CLASS_M,keyArr[i]];
+                        [_classString appendFormat:kWHC_CLASS,className,classContent];
+                        [_classMString appendFormat:kWHC_CLASS_M,className];
                     }else{
                         [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSArray"];
-                        [_classString appendFormat:kSWHC_CLASS,keyArr[i],keyArr[i],classContent];
+                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
                     if(_checkBox.state == 0){
