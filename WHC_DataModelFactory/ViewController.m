@@ -35,6 +35,7 @@
 #define kWHC_DEFAULT_CLASS_NAME @("WHC")
 #define kWHC_CLASS       @("\n@interface %@ :NSObject\n%@\n@end\n")
 #define kWHC_PROPERTY(s)    ((s) == 'c' ? @("@property (nonatomic , copy) %@              * %@;\n") : @("@property (nonatomic , strong) %@              * %@;\n"))
+#define kWHC_ASSIGN_PROPERTY    @("@property (nonatomic , assign) %@              %@;\n")
 #define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
 
 #define kWHC_CLASS_Prefix_M     @("@implementation %@\n+ (NSString *)prefix;\n@end\n\n")
@@ -180,9 +181,27 @@
                     }
                 }else if ([subObject isKindOfClass:[NSNumber class]]){
                     if(_checkBox.state == 0){
-                        [property appendFormat:kWHC_PROPERTY('s'),@"NSNumber",keyArr[i]];
+                        if (strcmp([subObject objCType], @encode(float)) == 0 ||
+                            strcmp([subObject objCType], @encode(CGFloat)) == 0) {
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"CGFloat",keyArr[i]];
+                        }else if (strcmp([subObject objCType], @encode(double)) == 0) {
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"double",keyArr[i]];
+                        }else if (strcmp([subObject objCType], @encode(BOOL)) == 0) {
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"Bool",keyArr[i]];
+                        }else {
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"NSInteger",keyArr[i]];
+                        }
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"NSNumber"];
+                        if (strcmp([subObject objCType], @encode(float)) == 0 ||
+                            strcmp([subObject objCType], @encode(CGFloat)) == 0) {
+                            [property appendFormat:kSWHC_PROPERTY,@"CGFloat",keyArr[i]];
+                        }else if (strcmp([subObject objCType], @encode(double)) == 0) {
+                            [property appendFormat:kSWHC_PROPERTY,@"Double",keyArr[i]];
+                        }else if (strcmp([subObject objCType], @encode(BOOL)) == 0) {
+                            [property appendFormat:kSWHC_PROPERTY,@"Bool",keyArr[i]];
+                        }else {
+                            [property appendFormat:kSWHC_PROPERTY,@"Int",keyArr[i]];
+                        }
                     }
                 }else{
                     if(subObject == nil){
