@@ -22,9 +22,14 @@
 #define kWHC_PROPERTY(s)    ((s) == 'c' ? @("@property (nonatomic , copy) %@              * %@;\n") : @("@property (nonatomic , strong) %@              * %@;\n"))
 #define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
 
+#define kWHC_CLASS_Prefix_M     @("@implementation %@\n+ (NSString *)prefix;\n@end\n\n")
+
+#define kWHC_Prefix_M_Func @("+ (NSString *)prefix {\n    return @\"%@\";\n}\n")
+
+#define kSWHC_Prefix_Func @("class func prefix() -> String {\n    return \"%@\"\n}\n")
 
 #define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}")
-#define kSWHC_PROPERTY @("var %@: %@!;\n")
+#define kSWHC_PROPERTY @("var %@: %@!\n")
 @interface ViewController (){
     NSMutableString       *   _classString;        //存类头文件内容
     NSMutableString       *   _classMString;       //存类源文件内容
@@ -79,7 +84,11 @@
             dict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:NULL];
         }
         if(_checkBox.state == 0){
-            [_classMString appendFormat:kWHC_CLASS_M,className];
+            if (_classPrefixName.length > 0) {
+                [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+            }else {
+                [_classMString appendFormat:kWHC_CLASS_M,className];
+            }
             [_classString appendFormat:kWHC_CLASS,className,[self handleDataEngine:dict key:@""]];
         }else{
             [_classString appendFormat:kSWHC_CLASS,className,className,[self handleDataEngine:dict key:@""]];
@@ -101,6 +110,8 @@
     return [NSString stringWithFormat:@"%@%@%@",_classPrefixName,[first uppercaseString],other];
 }
 
+#pragma mark -解析处理引擎-
+
 - (NSString*)handleDataEngine:(id)object key:(NSString*)key{
     if(object){
         NSMutableString  * property = [NSMutableString new];
@@ -108,6 +119,13 @@
             NSDictionary  * dict = object;
             NSInteger       count = dict.count;
             NSArray       * keyArr = [dict allKeys];
+            if (_classPrefixName.length > 0) {
+                if (_checkBox.state == 0) {
+                    [property appendFormat:kWHC_Prefix_M_Func,_classPrefixName];
+                }else {
+                    [property appendFormat:kSWHC_Prefix_Func,_classPrefixName];
+                }
+            }
             for (NSInteger i = 0; i < count; i++) {
                 id subObject = dict[keyArr[i]];
                 NSString * className = [self handleAfterClassName:keyArr[i]];
@@ -116,9 +134,13 @@
                     if(_checkBox.state == 0){
                         [property appendFormat:kWHC_PROPERTY('s'),className,keyArr[i]];
                         [_classString appendFormat:kWHC_CLASS,className,classContent];
-                        [_classMString appendFormat:kWHC_CLASS_M,className];
+                        if (_classPrefixName.length > 0) {
+                            [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                        }else {
+                            [_classMString appendFormat:kWHC_CLASS_M,className];
+                        }
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,className,keyArr[i]];
+                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],className];
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSArray class]]){
@@ -126,7 +148,11 @@
                     if(_checkBox.state == 0){
                         [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],keyArr[i]];
                         [_classString appendFormat:kWHC_CLASS,className,classContent];
-                        [_classMString appendFormat:kWHC_CLASS_M,className];
+                        if (_classPrefixName.length > 0) {
+                            [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                        }else {
+                            [_classMString appendFormat:kWHC_CLASS_M,className];
+                        }
                     }else{
                         [property appendFormat:kSWHC_PROPERTY,keyArr[i],[NSString stringWithFormat:@"NSArray<%@>",className]];
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
