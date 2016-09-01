@@ -170,7 +170,7 @@
                             [_classMString appendFormat:kWHC_CLASS_M,className];
                         }
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],[NSString stringWithFormat:@"NSArray<%@>",className]];
+                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],[NSString stringWithFormat:@"[%@]",className]];
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
@@ -194,13 +194,13 @@
                     }else{
                         if (strcmp([subObject objCType], @encode(float)) == 0 ||
                             strcmp([subObject objCType], @encode(CGFloat)) == 0) {
-                            [property appendFormat:kSWHC_PROPERTY,@"CGFloat",keyArr[i]];
+                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"CGFloat"];
                         }else if (strcmp([subObject objCType], @encode(double)) == 0) {
-                            [property appendFormat:kSWHC_PROPERTY,@"Double",keyArr[i]];
+                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"Double"];
                         }else if (strcmp([subObject objCType], @encode(BOOL)) == 0) {
-                            [property appendFormat:kSWHC_PROPERTY,@"Bool",keyArr[i]];
+                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"Bool"];
                         }else {
-                            [property appendFormat:kSWHC_PROPERTY,@"Int",keyArr[i]];
+                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"Int"];
                         }
                     }
                 }else{

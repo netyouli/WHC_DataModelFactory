@@ -5,6 +5,8 @@
 ### 4.WHC_Model开源库完全兼容WHC_DataModelFactory生成的模型类
 ### 5.WHC_Model 开源地址：github地址：https://github.com/netyouli/WHC_DataModel
 
+### 6.超方便好用的自动布局库:https://github.com/netyouli/WHC_AutoLayoutKit
+
 ###咨询qq:712641411
 ###开发作者：吴海超
 
