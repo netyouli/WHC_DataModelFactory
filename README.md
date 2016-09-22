@@ -13,4 +13,4 @@
 
 ## 支持添加自定义类前缀
 ## 1.Json 转模型类文件2.Xml 转模型类文件（老版本）
- ![](https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/JSON.gif)![](https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/xml.gif)
+ ![](https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/json.gif)![](https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/xml.gif)
