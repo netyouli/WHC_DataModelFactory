@@ -27,6 +27,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+// VERSON (1.6.0)
 
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
@@ -46,6 +47,12 @@
 
 #define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}")
 #define kSWHC_PROPERTY @("var %@: %@!\n")
+#define kSWHC_ASSGIN_PROPERTY @("var %@: %@\n")
+
+#define kInputJsonPlaceholdText @("请输入json或者xml字符串")
+#define kSourcePlaceholdText @("自动生成对象模型类源文件")
+#define kHeaderPlaceholdText @("自动生成对象模型类头文件")
+
 @interface ViewController (){
     NSMutableString       *   _classString;        //存类头文件内容
     NSMutableString       *   _classMString;       //存类源文件内容
@@ -53,9 +60,9 @@
 }
 
 @property (nonatomic , strong)IBOutlet  NSTextField  * classNameField;
-@property (nonatomic , strong)IBOutlet  NSTextField  * jsonField;
-@property (nonatomic , strong)IBOutlet  NSTextField  * classField;
-@property (nonatomic , strong)IBOutlet  NSTextField  * classMField;
+@property (nonatomic , strong)IBOutlet  NSTextView  * jsonField;
+@property (nonatomic , strong)IBOutlet  NSTextView  * classField;
+@property (nonatomic , strong)IBOutlet  NSTextView  * classMField;
 @property (nonatomic , strong)IBOutlet  NSTextField  * classPrefixField;
 @property (nonatomic , strong)IBOutlet  NSButton       * checkBox;
 @end
@@ -68,10 +75,42 @@
     _classMString = [NSMutableString new];
     _classField.editable = NO;
     _classMField.editable = NO;
-    _jsonField.drawsBackground = NO;
-    _classField.drawsBackground = NO;
-    _classMField.drawsBackground = NO;
     // Do any additional setup after loading the view.
+    [self setTextViewStyle];
+    [self setClassSourceContent:kSourcePlaceholdText];
+    [self setClassHeaderContent:kHeaderPlaceholdText];
+}
+
+- (void)setJsonContent:(NSString *)content {
+    if (content != nil) {
+        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:content];
+        [_jsonField.textStorage setAttributedString:attrContent];
+        [_jsonField.textStorage setFont:[NSFont systemFontOfSize:14]];
+        [_jsonField.textStorage setForegroundColor:[NSColor colorWithRed:61.0 / 255.0 green:160.0 / 255.0 blue:151.0 / 255.0 alpha:1.0]];
+    }
+}
+
+- (void)setClassHeaderContent:(NSString *)content {
+    if (content != nil) {
+        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:content];
+        [_classField.textStorage setAttributedString:attrContent];
+        [_classField.textStorage setFont:[NSFont systemFontOfSize:14]];
+        [_classField.textStorage setForegroundColor:[NSColor colorWithRed:61.0 / 255.0 green:160.0 / 255.0 blue:151.0 / 255.0 alpha:1.0]];
+    }
+}
+
+- (void)setClassSourceContent:(NSString *)content {
+    if (content != nil) {
+        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:content];
+        [_classMField.textStorage setAttributedString:attrContent];
+        [_classMField.textStorage setFont:[NSFont systemFontOfSize:14]];
+        [_classMField.textStorage setForegroundColor:[NSColor colorWithRed:61.0 / 255.0 green:160.0 / 255.0 blue:151.0 / 255.0 alpha:1.0]];
+    }
+}
+
+- (void)setTextViewStyle {
+    _jsonField.font = [NSFont systemFontOfSize:14];
+    _jsonField.textColor = [NSColor colorWithRed:198.0 / 255.0 green:77.0 / 255.0 blue:21.0 / 255.0 alpha:1.0];
 }
 
 - (IBAction)clickRadioButtone:(NSButton *)sender{
@@ -81,7 +120,7 @@
     [_classString deleteCharactersInRange:NSMakeRange(0, _classString.length)];
     [_classMString deleteCharactersInRange:NSMakeRange(0, _classMString.length)];
     NSString  * className = _classNameField.stringValue;
-    NSString  * json = _jsonField.stringValue;
+    NSString  * json = _jsonField.textStorage.string;
     _classPrefixName = _classPrefixField.stringValue == nil ? @"" : _classPrefixField.stringValue;
     if(className == nil){
         className = kWHC_DEFAULT_CLASS_NAME;
@@ -109,8 +148,8 @@
         }else{
             [_classString appendFormat:kSWHC_CLASS,className,className,[self handleDataEngine:dict key:@""]];
         }
-        _classField.stringValue = _classString;
-        _classMField.stringValue = _classMString;
+        [self setClassHeaderContent:_classString];
+        [self setClassSourceContent:_classMString];
     }else{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
@@ -124,6 +163,12 @@
     NSString * first = [className substringToIndex:1];
     NSString * other = [className substringFromIndex:1];
     return [NSString stringWithFormat:@"%@%@%@",_classPrefixName,[first uppercaseString],other];
+}
+
+- (NSString *)handlePropertyName:(NSString *)propertyName {
+    NSString * first = [propertyName substringToIndex:1];
+    NSString * other = [propertyName substringFromIndex:1];
+    return [NSString stringWithFormat:@"%@%@",[first lowercaseString],other];
 }
 
 #pragma mark -解析处理引擎-
@@ -145,10 +190,11 @@
             for (NSInteger i = 0; i < count; i++) {
                 id subObject = dict[keyArr[i]];
                 NSString * className = [self handleAfterClassName:keyArr[i]];
+                NSString * propertyName = [self handlePropertyName:keyArr[i]];
                 if([subObject isKindOfClass:[NSDictionary class]]){
                     NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     if(_checkBox.state == 0){
-                        [property appendFormat:kWHC_PROPERTY('s'),className,keyArr[i]];
+                        [property appendFormat:kWHC_PROPERTY('s'),className,propertyName];
                         [_classString appendFormat:kWHC_CLASS,className,classContent];
                         if (_classPrefixName.length > 0) {
                             [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
@@ -156,7 +202,7 @@
                             [_classMString appendFormat:kWHC_CLASS_M,className];
                         }
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],className];
+                        [property appendFormat:kSWHC_PROPERTY,propertyName,className];
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSArray class]]){
@@ -170,51 +216,51 @@
                             [_classMString appendFormat:kWHC_CLASS_M,className];
                         }
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],[NSString stringWithFormat:@"[%@]",className]];
+                        [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",className]];
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
                     if(_checkBox.state == 0){
-                        [property appendFormat:kWHC_PROPERTY('c'),@"NSString",keyArr[i]];
+                        [property appendFormat:kWHC_PROPERTY('c'),@"NSString",propertyName];
                     }else{
-                        [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"String"];
+                        [property appendFormat:kSWHC_PROPERTY,propertyName,@"String"];
                     }
                 }else if ([subObject isKindOfClass:[NSNumber class]]){
                     if(_checkBox.state == 0){
                         if (strcmp([subObject objCType], @encode(float)) == 0 ||
                             strcmp([subObject objCType], @encode(CGFloat)) == 0) {
-                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"CGFloat",keyArr[i]];
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"CGFloat",propertyName];
                         }else if (strcmp([subObject objCType], @encode(double)) == 0) {
-                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"double",keyArr[i]];
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"double",propertyName];
                         }else if (strcmp([subObject objCType], @encode(BOOL)) == 0) {
-                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"Bool",keyArr[i]];
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"BOOL",propertyName];
                         }else {
-                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"NSInteger",keyArr[i]];
+                            [property appendFormat:kWHC_ASSIGN_PROPERTY,@"NSInteger",propertyName];
                         }
                     }else{
                         if (strcmp([subObject objCType], @encode(float)) == 0 ||
                             strcmp([subObject objCType], @encode(CGFloat)) == 0) {
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"CGFloat"];
+                            [property appendFormat:kSWHC_ASSGIN_PROPERTY,propertyName,@"CGFloat = 0.0"];
                         }else if (strcmp([subObject objCType], @encode(double)) == 0) {
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"Double"];
+                            [property appendFormat:kSWHC_ASSGIN_PROPERTY,propertyName,@"Double = 0.0"];
                         }else if (strcmp([subObject objCType], @encode(BOOL)) == 0) {
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"Bool"];
+                            [property appendFormat:kSWHC_ASSGIN_PROPERTY,propertyName,@"Bool = false"];
                         }else {
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"Int"];
+                            [property appendFormat:kSWHC_ASSGIN_PROPERTY,propertyName,@"Int = 0"];
                         }
                     }
                 }else{
                     if(subObject == nil){
                         if(_checkBox.state == 0){
-                            [property appendFormat:kWHC_PROPERTY('c'),@"NSString",keyArr[i]];
+                            [property appendFormat:kWHC_PROPERTY('c'),@"NSString",propertyName];
                         }else{
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"String"];
+                            [property appendFormat:kSWHC_PROPERTY,propertyName,@"String"];
                         }
                     }else if([subObject isKindOfClass:[NSNull class]]){
                         if(_checkBox.state == 0){
-                            [property appendFormat:kWHC_PROPERTY('c'),@"NSString",keyArr[i]];
+                            [property appendFormat:kWHC_PROPERTY('c'),@"NSString",propertyName];
                         }else{
-                            [property appendFormat:kSWHC_PROPERTY,keyArr[i],@"String"];
+                            [property appendFormat:kSWHC_PROPERTY,propertyName,@"String"];
                         }
                     }
                 }
