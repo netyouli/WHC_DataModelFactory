@@ -206,18 +206,52 @@
                         [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
                     }
                 }else if ([subObject isKindOfClass:[NSArray class]]){
-                    NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
-                    if(_checkBox.state == 0){
-                        [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],keyArr[i]];
-                        [_classString appendFormat:kWHC_CLASS,className,classContent];
-                        if (_classPrefixName.length > 0) {
-                            [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                    id firstValue = nil;
+                    NSString * classContent = nil;
+                    if (((NSArray *)subObject).count > 0) {
+                        firstValue = ((NSArray *)subObject).firstObject;
+                    }else {
+                        goto ARRAY_PASER;
+                    }
+                    if ([firstValue isKindOfClass:[NSString class]] ||
+                        [firstValue isKindOfClass:[NSNumber class]]) {
+                        if ([firstValue isKindOfClass:[NSString class]]) {
+                            if(_checkBox.state == 0){
+                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSString"],keyArr[i]];
+                            }else{
+                                [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"String"]];
+                            }
                         }else {
-                            [_classMString appendFormat:kWHC_CLASS_M,className];
+                            if(_checkBox.state == 0){
+                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSNumber"],keyArr[i]];
+                            }else{
+                                if (strcmp([firstValue objCType], @encode(float)) == 0 ||
+                                    strcmp([firstValue objCType], @encode(CGFloat)) == 0) {
+                                    [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"CGFloat"]];
+                                }else if (strcmp([firstValue objCType], @encode(double)) == 0) {
+                                    [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"double"]];
+                                }else if (strcmp([firstValue objCType], @encode(BOOL)) == 0) {
+                                    [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"Bool"]];
+                                }else {
+                                    [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"Int"]];
+                                }
+                            }
                         }
-                    }else{
-                        [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",className]];
-                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                    }else {
+                    ARRAY_PASER:
+                        classContent = [self handleDataEngine:subObject key:keyArr[i]];
+                        if(_checkBox.state == 0){
+                            [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],keyArr[i]];
+                            [_classString appendFormat:kWHC_CLASS,className,classContent];
+                            if (_classPrefixName.length > 0) {
+                                [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                            }else {
+                                [_classMString appendFormat:kWHC_CLASS_M,className];
+                            }
+                        }else{
+                            [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",className]];
+                            [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                        }
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
                     if(_checkBox.state == 0){
