@@ -1,5 +1,4 @@
 # WHC_DataModelFactory iOS开发高效辅助工具！
-==============
 
 简介
 ==============
@@ -10,7 +9,7 @@
 - **咨询**: 712641411
 - **作者**: 吴海超
 
-广告
+推荐
 ==============
 * iOS平台效率最高json->model库: https://github.com/netyouli/WHC_Model
 * iOS平台最好用自动布局库: https://github.com/netyouli/WHC_AutoLayoutKit
@@ -26,8 +25,8 @@
 
 效果
 ==============
-<img src = "https://github.com/netyouli/WHC_Model/blob/master/Result/b.png">
-<img src = "https://github.com/netyouli/WHC_Model/blob/master/Result/a.png">
+<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/oc.png">
+<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/swift.png">
 
 ## <a id="期待"></a>期待
 
