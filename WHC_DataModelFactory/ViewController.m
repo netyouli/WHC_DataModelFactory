@@ -27,25 +27,39 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-// VERSON (1.6.0)
+// VERSON (1.7.0)
 
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
 #import <objc/runtime.h>
-
+//+ (NSString *)prefix;
 #define kWHC_DEFAULT_CLASS_NAME @("WHC")
 #define kWHC_CLASS       @("\n@interface %@ :NSObject\n%@\n@end\n")
+#define kWHC_CodingCLASS       @("\n@interface %@ :NSObject <NSCoding>\n%@\n@end\n")
+#define kWHC_CopyingCLASS       @("\n@interface %@ :NSObject <NSCopying>\n%@\n@end\n")
+#define kWHC_CodingAndCopyingCLASS       @("\n@interface %@ :NSObject <NSCoding,NSCopying>\n%@\n@end\n")
+
 #define kWHC_PROPERTY(s)    ((s) == 'c' ? @("@property (nonatomic , copy) %@              * %@;\n") : @("@property (nonatomic , strong) %@              * %@;\n"))
 #define kWHC_ASSIGN_PROPERTY    @("@property (nonatomic , assign) %@              %@;\n")
 #define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
+#define kWHC_CodingCLASS_M     @("@implementation %@\n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n} \n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n\n@end\n\n")
 
-#define kWHC_CLASS_Prefix_M     @("@implementation %@\n+ (NSString *)prefix;\n@end\n\n")
+#define kWHC_CopyingCLASS_M     @("@implementation %@ \n- (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n\n\n@end\n\n")
+#define kWHC_CodingAndCopyingCLASS_M @("@implementation %@ \n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n} \n\n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n - (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n \n@end\n\n")
 
-#define kWHC_Prefix_M_Func @("+ (NSString *)prefix {\n    return @\"%@\";\n}\n")
+#define kWHC_CLASS_Prefix_M     @("@implementation %@\n+ (NSString *)prefix {\n    return @\"%@\";\n}\n\n@end\n\n")
+
+#define kWHC_Prefix_H_Func @("\n+ (NSString *)prefix;\n")
 
 #define kSWHC_Prefix_Func @("class func prefix() -> String {\n    return \"%@\"\n}\n")
 
 #define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}")
+#define kSWHC_CodingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding {\n \nrequired init?(coder aDecoder: NSCoder) {\n       super.init()\n       self.whc_Decode(aDecoder)\n}\n\nfunc encodeWithCoder(aCoder: NSCoder) {\n       self.whc_Encode(aCoder)\n}  \n\n%@\n}\n")
+
+#define kSWHC_CopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCopying {\n \nfunc copyWithZone(zone: NSZone) -> AnyObject {\n       return self.whc_Copy()\n}  \n\n %@\n}\n")
+
+#define kSWHC_CodingAndCopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding, NSCopying {\n\nrequired init?(coder aDecoder: NSCoder) {\n       super.init()\n       self.whc_Decode(aDecoder)\n}\n\nfunc encodeWithCoder(aCoder: NSCoder) {\n       self.whc_Encode(aCoder)\n} \n\nfunc copyWithZone(zone: NSZone) -> AnyObject {\n       return self.whc_Copy()\n} \n\n%@\n}\n")
+
 #define kSWHC_PROPERTY @("var %@: %@!\n")
 #define kSWHC_ASSGIN_PROPERTY @("var %@: %@\n")
 
@@ -57,14 +71,17 @@
     NSMutableString       *   _classString;        //存类头文件内容
     NSMutableString       *   _classMString;       //存类源文件内容
     NSString              *   _classPrefixName;    //类前缀
+    BOOL                      _didMake;
 }
+@property (weak) IBOutlet NSLayoutConstraint *classMHeightConstraint;
 
 @property (nonatomic , strong)IBOutlet  NSTextField  * classNameField;
 @property (nonatomic , strong)IBOutlet  NSTextView  * jsonField;
 @property (nonatomic , strong)IBOutlet  NSTextView  * classField;
 @property (nonatomic , strong)IBOutlet  NSTextView  * classMField;
-@property (nonatomic , strong)IBOutlet  NSTextField  * classPrefixField;
 @property (nonatomic , strong)IBOutlet  NSButton       * checkBox;
+@property (nonatomic , strong)IBOutlet  NSButton       * codingCheckBox;
+@property (nonatomic , strong)IBOutlet  NSButton       * copyingCheckBox;
 @end
 
 @implementation ViewController
@@ -79,6 +96,7 @@
     [self setTextViewStyle];
     [self setClassSourceContent:kSourcePlaceholdText];
     [self setClassHeaderContent:kHeaderPlaceholdText];
+    
 }
 
 - (void)setJsonContent:(NSString *)content {
@@ -111,17 +129,28 @@
 - (void)setTextViewStyle {
     _jsonField.font = [NSFont systemFontOfSize:14];
     _jsonField.textColor = [NSColor colorWithRed:198.0 / 255.0 green:77.0 / 255.0 blue:21.0 / 255.0 alpha:1.0];
+    _jsonField.backgroundColor = [NSColor colorWithRed:40.0 / 255.0 green:40.0 / 255.0 blue:40.0 / 255.0 alpha:1.0];
+    _classMField.backgroundColor = _jsonField.backgroundColor;
+    _classField.backgroundColor = _jsonField.backgroundColor;
+    _classMHeightConstraint.constant = 0;
 }
 
 - (IBAction)clickRadioButtone:(NSButton *)sender{
+    if (sender == _checkBox) {
+        _classMHeightConstraint.constant = (sender.state == 0 ? 184 : 0);
+    }
+    if (_didMake) {
+        [self clickMakeButton:nil];
+    }
 }
 
 - (IBAction)clickMakeButton:(NSButton*)sender{
+    _didMake = YES;
     [_classString deleteCharactersInRange:NSMakeRange(0, _classString.length)];
     [_classMString deleteCharactersInRange:NSMakeRange(0, _classMString.length)];
     NSString  * className = _classNameField.stringValue;
     NSString  * json = _jsonField.textStorage.string;
-    _classPrefixName = _classPrefixField.stringValue == nil ? @"" : _classPrefixField.stringValue;
+    _classPrefixName = @"";
     if(className == nil){
         className = kWHC_DEFAULT_CLASS_NAME;
     }
@@ -140,7 +169,7 @@
         }
         if(_checkBox.state == 0){
             if (_classPrefixName.length > 0) {
-                [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
             }else {
                 [_classMString appendFormat:kWHC_CLASS_M,className];
             }
@@ -160,15 +189,21 @@
 }
 
 - (NSString *)handleAfterClassName:(NSString *)className {
-    NSString * first = [className substringToIndex:1];
-    NSString * other = [className substringFromIndex:1];
-    return [NSString stringWithFormat:@"%@%@%@",_classPrefixName,[first uppercaseString],other];
+    if (className != nil && className.length > 0) {
+        NSString * first = [className substringToIndex:1];
+        NSString * other = [className substringFromIndex:1];
+        return [NSString stringWithFormat:@"%@%@%@",_classPrefixName,[first uppercaseString],other];
+    }
+    return className;
 }
 
 - (NSString *)handlePropertyName:(NSString *)propertyName {
-    NSString * first = [propertyName substringToIndex:1];
-    NSString * other = [propertyName substringFromIndex:1];
-    return [NSString stringWithFormat:@"%@%@",[first lowercaseString],other];
+    if (propertyName != nil && propertyName.length > 0) {
+        NSString * first = [propertyName substringToIndex:1];
+        NSString * other = [propertyName substringFromIndex:1];
+        return [NSString stringWithFormat:@"%@%@",[first lowercaseString],other];
+    }
+    return propertyName;
 }
 
 #pragma mark -解析处理引擎-
@@ -182,7 +217,7 @@
             NSArray       * keyArr = [dict allKeys];
             if (_classPrefixName.length > 0) {
                 if (_checkBox.state == 0) {
-                    [property appendFormat:kWHC_Prefix_M_Func,_classPrefixName];
+                    [property appendFormat:kWHC_Prefix_H_Func,_classPrefixName];
                 }else {
                     [property appendFormat:kSWHC_Prefix_Func,_classPrefixName];
                 }
@@ -195,15 +230,40 @@
                     NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
                     if(_checkBox.state == 0){
                         [property appendFormat:kWHC_PROPERTY('s'),className,propertyName];
-                        [_classString appendFormat:kWHC_CLASS,className,classContent];
-                        if (_classPrefixName.length > 0) {
-                            [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                        if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                            [_classString appendFormat:kWHC_CodingAndCopyingCLASS,className,classContent];
+                        }else if (_codingCheckBox.state != 0) {
+                            [_classString appendFormat:kWHC_CodingCLASS,className,classContent];
+                        }else if (_copyingCheckBox.state != 0) {
+                            [_classString appendFormat:kWHC_CopyingCLASS,className,classContent];
                         }else {
-                            [_classMString appendFormat:kWHC_CLASS_M,className];
+                            [_classString appendFormat:kWHC_CLASS,className,classContent];
+                        }
+                        if (_classPrefixName.length > 0) {
+                            [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
+                        }else {
+                            if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                [_classMString appendFormat:kWHC_CodingAndCopyingCLASS_M,className];
+                            }else if (_codingCheckBox.state != 0) {
+                                [_classMString appendFormat:kWHC_CodingCLASS_M,className];
+                            }else if (_copyingCheckBox.state != 0) {
+                                [_classMString appendFormat:kWHC_CopyingCLASS_M,className];
+                            }else {
+                                [_classMString appendFormat:kWHC_CLASS_M,className];
+                            }
                         }
                     }else{
                         [property appendFormat:kSWHC_PROPERTY,propertyName,className];
-                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                        if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                            [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                        }else if (_codingCheckBox.state != 0) {
+                            [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                        }else if (_copyingCheckBox.state != 0) {
+                            [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                        }else {
+                            [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                        }
+                        
                     }
                 }else if ([subObject isKindOfClass:[NSArray class]]){
                     id firstValue = nil;
@@ -244,7 +304,7 @@
                             [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],keyArr[i]];
                             [_classString appendFormat:kWHC_CLASS,className,classContent];
                             if (_classPrefixName.length > 0) {
-                                [_classMString appendFormat:kWHC_CLASS_Prefix_M,className];
+                                [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
                             }else {
                                 [_classMString appendFormat:kWHC_CLASS_M,className];
                             }
