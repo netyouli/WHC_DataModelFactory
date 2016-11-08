@@ -9,24 +9,24 @@
 - **咨询**: 712641411
 - **作者**: 吴海超
 
+效果
+==============
+<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/oc.png">
+<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/swift.png">
+
 推荐
 ==============
 * iOS平台效率最高json->model库: https://github.com/netyouli/WHC_Model
 * iOS平台最好用自动布局库: https://github.com/netyouli/WHC_AutoLayoutKit
 
-要求
-==============
-* mac os x 10.7 or later
-* Xcode 8.0 or later
-
 使用
 ==============
 * 运行该工程生成WHC_DataModelFactory.App 复制到桌面以后双击运行
 
-效果
+要求
 ==============
-<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/oc.png">
-<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/swift.png">
+* mac os x 10.7 or later
+* Xcode 8.0 or later
 
 ## <a id="期待"></a>期待
 
