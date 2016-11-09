@@ -14,6 +14,7 @@
 		C3D4D80D1AF1D769004DE109 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3D4D80B1AF1D769004DE109 /* Main.storyboard */; };
 		C3D4D8191AF1D769004DE109 /* WHC_DataModelFactoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D4D8181AF1D769004DE109 /* WHC_DataModelFactoryTests.m */; };
 		C3D4D82C1AF1D9DB004DE109 /* WHC_XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */; };
+		FE1031311DD2BE0100A9F284 /* dict.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1031301DD2BE0100A9F284 /* dict.png */; };
 		FED9B1941DD1BFB0004D7873 /* oc.png in Resources */ = {isa = PBXBuildFile; fileRef = FED9B1921DD1BFB0004D7873 /* oc.png */; };
 		FED9B1951DD1BFB0004D7873 /* swift.png in Resources */ = {isa = PBXBuildFile; fileRef = FED9B1931DD1BFB0004D7873 /* swift.png */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 		C3D4D8181AF1D769004DE109 /* WHC_DataModelFactoryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WHC_DataModelFactoryTests.m; sourceTree = "<group>"; };
 		C3D4D8281AF1D9DB004DE109 /* WHC_XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_XMLParser.h; sourceTree = "<group>"; };
 		C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHC_XMLParser.m; sourceTree = "<group>"; };
+		FE1031301DD2BE0100A9F284 /* dict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dict.png; sourceTree = "<group>"; };
 		FED9B1921DD1BFB0004D7873 /* oc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oc.png; sourceTree = "<group>"; };
 		FED9B1931DD1BFB0004D7873 /* swift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swift.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +139,7 @@
 		FED9B1911DD1BFB0004D7873 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				FE1031301DD2BE0100A9F284 /* dict.png */,
 				FED9B1921DD1BFB0004D7873 /* oc.png */,
 				FED9B1931DD1BFB0004D7873 /* swift.png */,
 			);
@@ -224,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3D4D80A1AF1D769004DE109 /* Images.xcassets in Resources */,
+				FE1031311DD2BE0100A9F284 /* dict.png in Resources */,
 				FED9B1951DD1BFB0004D7873 /* swift.png in Resources */,
 				FED9B1941DD1BFB0004D7873 /* oc.png in Resources */,
 				C3D4D80D1AF1D769004DE109 /* Main.storyboard in Resources */,

@@ -6,12 +6,15 @@
 - **准确**: 避免手工创建模型类的麻烦和错误率（提高开发效率）
 - **处理**: 自动生成类名称首字符大写
 - **兼容**: 生成的模型类与WHC_Model解析json库完全匹配
+- **强大**: 支持xml/json字符串和dictionary字符串
 - **咨询**: 712641411
 - **作者**: 吴海超
 
 效果
 ==============
+* Objective-C
 <img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/oc.png">
+* Swift
 <img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/swift.png">
 
 推荐

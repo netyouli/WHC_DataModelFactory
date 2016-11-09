@@ -166,6 +166,19 @@
             //json
             NSData  * jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
             dict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:NULL];
+            if (dict == nil) {
+                NSError *error;
+                NSPropertyListFormat plistFormat;
+                dict = [NSPropertyListSerialization propertyListWithData:jsonData options:NSPropertyListMutableContainers format:&plistFormat error:&error];
+            }
+        }
+        if (dict == nil) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+            NSAlert * alert = [NSAlert alertWithMessageText:@"WHC" defaultButton:@"确定" alternateButton:nil otherButton:nil informativeTextWithFormat:@"未知数据格式无法解析(请提供json字符串或者dictionary字符串)"];
+            [alert runModal];
+#pragma clang diagnostic pop
+            return;
         }
         if(_checkBox.state == 0){
             if (_classPrefixName.length > 0) {
@@ -301,7 +314,7 @@
                     ARRAY_PASER:
                         classContent = [self handleDataEngine:subObject key:keyArr[i]];
                         if(_checkBox.state == 0){
-                            [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],keyArr[i]];
+                            [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],propertyName];
                             [_classString appendFormat:kWHC_CLASS,className,classContent];
                             if (_classPrefixName.length > 0) {
                                 [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
