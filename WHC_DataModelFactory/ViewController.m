@@ -27,7 +27,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-// VERSON (1.8.1)
+// VERSON (1.8.2)
 
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
@@ -174,8 +174,10 @@
             //json
             NSData  * jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
             id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-            NSData * formatJsonData = [NSJSONSerialization dataWithJSONObject:jsonObject options:NSJSONWritingPrettyPrinted error:nil];
-            [self setJsonContent:[[NSString alloc] initWithData:formatJsonData encoding:NSUTF8StringEncoding]];
+            if (jsonObject) {
+                NSData * formatJsonData = [NSJSONSerialization dataWithJSONObject:jsonObject options:NSJSONWritingPrettyPrinted error:nil];
+                [self setJsonContent:[[NSString alloc] initWithData:formatJsonData encoding:NSUTF8StringEncoding]];
+            }
             dict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:NULL];
             if (dict == nil) {
                 NSError *error;
