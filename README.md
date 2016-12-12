@@ -1,4 +1,4 @@
-# WHC_DataModelFactory iOS开发高效辅助工具！
+# WHC_DataModelFactory iOS开发高效辅助工具！(Version:1.8.1)
 
 简介
 ==============
@@ -17,10 +17,14 @@
 * Swift
 <img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/swift.png">
 
+子库
+==============
+* 本mac工具对应的亲儿子库: [WHC_Model](https://github.com/netyouli/WHC_Model)
+
 推荐
 ==============
-* iOS平台效率最高json->model库: https://github.com/netyouli/WHC_Model
-* iOS平台最好用自动布局库: https://github.com/netyouli/WHC_AutoLayoutKit
+* iOS平台最强大Sqlite库: [ModelSqliteKit](https://github.com/netyouli/WHC_ModelSqliteKit)
+* iOS平台最好用自动布局库: [AutoLayoutKit](https://github.com/netyouli/WHC_AutoLayoutKit)
 
 使用
 ==============

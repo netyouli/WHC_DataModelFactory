@@ -27,7 +27,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-// VERSON (1.7.0)
+// VERSON (1.8.1)
 
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
@@ -42,10 +42,10 @@
 #define kWHC_PROPERTY(s)    ((s) == 'c' ? @("@property (nonatomic , copy) %@              * %@;\n") : @("@property (nonatomic , strong) %@              * %@;\n"))
 #define kWHC_ASSIGN_PROPERTY    @("@property (nonatomic , assign) %@              %@;\n")
 #define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
-#define kWHC_CodingCLASS_M     @("@implementation %@\n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n} \n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n\n@end\n\n")
+#define kWHC_CodingCLASS_M     @("@implementation %@\n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n       return self;\n ; \n} \n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n\n@end\n\n")
 
 #define kWHC_CopyingCLASS_M     @("@implementation %@ \n- (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n\n\n@end\n\n")
-#define kWHC_CodingAndCopyingCLASS_M @("@implementation %@ \n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n} \n\n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n - (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n \n@end\n\n")
+#define kWHC_CodingAndCopyingCLASS_M @("@implementation %@ \n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n        return self;\n } \n\n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n - (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n \n@end\n\n")
 
 #define kWHC_CLASS_Prefix_M     @("@implementation %@\n+ (NSString *)prefix {\n    return @\"%@\";\n}\n\n@end\n\n")
 
@@ -54,14 +54,14 @@
 #define kSWHC_Prefix_Func @("class func prefix() -> String {\n    return \"%@\"\n}\n")
 
 #define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}")
-#define kSWHC_CodingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding {\n \nrequired init?(coder aDecoder: NSCoder) {\n       super.init()\n       self.whc_Decode(aDecoder)\n}\n\nfunc encodeWithCoder(aCoder: NSCoder) {\n       self.whc_Encode(aCoder)\n}  \n\n%@\n}\n")
+#define kSWHC_CodingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding {\n \n       required init?(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encodeWithCoder(aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n}  \n\n%@\n       }\n")
 
-#define kSWHC_CopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCopying {\n \nfunc copyWithZone(zone: NSZone) -> AnyObject {\n       return self.whc_Copy()\n}  \n\n %@\n}\n")
+#define kSWHC_CopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCopying {\n \n       func copyWithZone(zone: NSZone) -> AnyObject {\n              return self.whc_Copy()\n       }  \n\n %@\n}\n")
 
-#define kSWHC_CodingAndCopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding, NSCopying {\n\nrequired init?(coder aDecoder: NSCoder) {\n       super.init()\n       self.whc_Decode(aDecoder)\n}\n\nfunc encodeWithCoder(aCoder: NSCoder) {\n       self.whc_Encode(aCoder)\n} \n\nfunc copyWithZone(zone: NSZone) -> AnyObject {\n       return self.whc_Copy()\n} \n\n%@\n}\n")
+#define kSWHC_CodingAndCopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding, NSCopying {\n\n       required init?(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encodeWithCoder(aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       } \n\n       func copyWithZone(zone: NSZone) -> AnyObject {\n              return self.whc_Copy()\n       } \n\n%@\n}\n")
 
-#define kSWHC_PROPERTY @("var %@: %@!\n")
-#define kSWHC_ASSGIN_PROPERTY @("var %@: %@\n")
+#define kSWHC_PROPERTY @("       var %@: %@!\n")
+#define kSWHC_ASSGIN_PROPERTY @("       var %@: %@\n")
 
 #define kInputJsonPlaceholdText @("请输入json或者xml字符串")
 #define kSourcePlaceholdText @("自动生成对象模型类源文件")
@@ -82,6 +82,7 @@
 @property (nonatomic , strong)IBOutlet  NSButton       * checkBox;
 @property (nonatomic , strong)IBOutlet  NSButton       * codingCheckBox;
 @property (nonatomic , strong)IBOutlet  NSButton       * copyingCheckBox;
+@property (nonatomic , strong)IBOutlet  NSButton       * checkUpdateButton;
 @end
 
 @implementation ViewController
@@ -96,6 +97,9 @@
     [self setTextViewStyle];
     [self setClassSourceContent:kSourcePlaceholdText];
     [self setClassHeaderContent:kHeaderPlaceholdText];
+    NSRect frmae = self.view.frame;
+    frmae.size.height = 600;
+    self.view.frame = frmae;
     
 }
 
@@ -104,7 +108,7 @@
         NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:content];
         [_jsonField.textStorage setAttributedString:attrContent];
         [_jsonField.textStorage setFont:[NSFont systemFontOfSize:14]];
-        [_jsonField.textStorage setForegroundColor:[NSColor colorWithRed:61.0 / 255.0 green:160.0 / 255.0 blue:151.0 / 255.0 alpha:1.0]];
+        [_jsonField.textStorage setForegroundColor:[NSColor orangeColor]];
     }
 }
 
@@ -133,6 +137,10 @@
     _classMField.backgroundColor = _jsonField.backgroundColor;
     _classField.backgroundColor = _jsonField.backgroundColor;
     _classMHeightConstraint.constant = 0;
+}
+
+- (IBAction)clickCheckUpdate:(NSButton *)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/netyouli/WHC_DataModelFactory"]];
 }
 
 - (IBAction)clickRadioButtone:(NSButton *)sender{
@@ -165,7 +173,10 @@
         }else{
             //json
             NSData  * jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
-            dict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:NULL];
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+            NSData * formatJsonData = [NSJSONSerialization dataWithJSONObject:jsonObject options:NSJSONWritingPrettyPrinted error:nil];
+            [self setJsonContent:[[NSString alloc] initWithData:formatJsonData encoding:NSUTF8StringEncoding]];
+            dict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:NULL];
             if (dict == nil) {
                 NSError *error;
                 NSPropertyListFormat plistFormat;
