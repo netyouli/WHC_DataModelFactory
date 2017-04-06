@@ -1,4 +1,4 @@
-# WHC_DataModelFactory iOS开发高效辅助工具！(Version:1.8.3)
+# WHC_DataModelFactory iOS开发高效辅助工具！(Version:1.8.4)
 
 简介
 ==============
@@ -28,7 +28,8 @@
 
 使用
 ==============
-* 运行该工程生成WHC_DataModelFactory.App 复制到桌面以后双击运行
+* 打开WHC_ModelApp目录app双击或者复制到应用程序文件夹
+* 运行该工程生成WHC_DataModelFactory.App 复制到应用程序文件夹
 
 要求
 ==============
