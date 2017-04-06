@@ -27,7 +27,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-// VERSON (1.8.3)
+// VERSON (1.8.4)
 
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
@@ -72,6 +72,7 @@
     NSMutableString       *   _classMString;       //存类源文件内容
     NSString              *   _classPrefixName;    //类前缀
     BOOL                      _didMake;
+    BOOL                      _firstLower;         //首字母小写
 }
 @property (weak) IBOutlet NSLayoutConstraint *classMHeightConstraint;
 
@@ -93,6 +94,7 @@
     _classMString = [NSMutableString new];
     _classField.editable = NO;
     _classMField.editable = NO;
+    _firstLower = YES;
     // Do any additional setup after loading the view.
     [self setTextViewStyle];
     [self setClassSourceContent:kSourcePlaceholdText];
@@ -143,9 +145,16 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/netyouli/WHC_DataModelFactory"]];
 }
 
+- (IBAction)clickFirstLower:(NSButton *)sender {
+    _firstLower = sender.state != 0;
+    if (_didMake) {
+        [self clickMakeButton:nil];
+    }
+}
+
 - (IBAction)clickRadioButtone:(NSButton *)sender{
     if (sender == _checkBox) {
-        _classMHeightConstraint.constant = (sender.state == 0 ? 184 : 0);
+        _classMHeightConstraint.constant = (sender.state == 0 ? 185 : 0);
     }
     if (_didMake) {
         [self clickMakeButton:nil];
@@ -224,10 +233,12 @@
 }
 
 - (NSString *)handlePropertyName:(NSString *)propertyName {
-    if (propertyName != nil && propertyName.length > 0) {
-        NSString * first = [propertyName substringToIndex:1];
-        NSString * other = [propertyName substringFromIndex:1];
-        return [NSString stringWithFormat:@"%@%@",[first lowercaseString],other];
+    if (_firstLower) {
+        if (propertyName != nil && propertyName.length > 0) {
+            NSString * first = [propertyName substringToIndex:1];
+            NSString * other = [propertyName substringFromIndex:1];
+            return [NSString stringWithFormat:@"%@%@",[first lowercaseString],other];
+        }
     }
     return propertyName;
 }
