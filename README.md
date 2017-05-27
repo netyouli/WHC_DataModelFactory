@@ -1,25 +1,26 @@
-# WHC_ModelFactory iOS开发高效辅助工具！(Version:1.8.4)
+# WHC_ModelFactory iOS开发高效辅助工具！(Version:1.8.5)
 
 简介
 ==============
 - **高效**: 自动把json或者xml字符串自动生成模型类文件内容
-- **准确**: 避免手工创建模型类的麻烦和错误率（提高开发效率）
-- **处理**: 自动生成类名称首字符大写
-- **兼容**: 生成的模型类与WHC_Model解析json库完全匹配
+- **准确**: 避免手工创建模型类的麻烦和高错误率（提高开发效率）
+- **处理**: 自动生成类名称首字符大写属性名首字母小写
+- **兼容**: 完美支持[WHC_Model](https://github.com/netyouli/WHC_Model)、[SexyJson](https://github.com/netyouli/SexyJson)开源json解析库
 - **强大**: 支持xml/json字符串和dictionary字符串
 - **咨询**: 712641411
 - **作者**: 吴海超
 
 效果
 ==============
+* Swift
+<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/sexyJsonShow.png">
 * Objective-C
 <img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/oc.png">
-* Swift
-<img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/swift.png">
 
 子库
 ==============
-* 本mac工具对应的亲儿子库: [WHC_Model](https://github.com/netyouli/WHC_Model)
+* 本mac工具对应的亲儿子库OC: [WHC_Model](https://github.com/netyouli/WHC_Model)
+* 本mac工具对应的亲儿子库Swift: [SexyJson](https://github.com/netyouli/SexyJson)
 
 推荐
 ==============
