@@ -32,7 +32,9 @@
 #import "ViewController.h"
 #import "WHC_XMLParser.h"
 #import <objc/runtime.h>
-//+ (NSString *)prefix;
+#import "WHC_AutoLayout.h"
+
+
 #define kWHC_DEFAULT_CLASS_NAME @("WHC")
 #define kWHC_CLASS       @("\n@interface %@ :NSObject\n%@\n@end\n")
 #define kWHC_CodingCLASS       @("\n@interface %@ :NSObject <NSCoding>\n%@\n@end\n")
@@ -53,12 +55,25 @@
 
 #define kSWHC_Prefix_Func @("class func prefix() -> String {\n    return \"%@\"\n}\n")
 
-#define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}")
-#define kSWHC_CodingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding {\n \n       required init?(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encodeWithCoder(aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n}  \n\n%@\n       }\n")
+#define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}\n")
+#define kSexyJson_Class @("\nclass %@: SexyJson {\n%@\n}\n")
+#define kSexyJson_Struct @("\nstruct %@: SexyJson {\n%@\n}\n")
 
-#define kSWHC_CopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCopying {\n \n       func copyWithZone(zone: NSZone) -> AnyObject {\n              return self.whc_Copy()\n       }  \n\n %@\n}\n")
+#define kSexyJson_FuncMap (@"\n       public func sexyMap(_ map: [String : Any]) {\n       %@       \n       }\n")
+#define kSexyJson_Struct_FuncMap (@"\n       public mutating func sexyMap(_ map: [String : Any]) {\n       %@       \n       }\n")
+#define kSexyJson_Map (@"\n              %@        <<<        map[\"%@\"]")
 
-#define kSWHC_CodingAndCopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding, NSCopying {\n\n       required init?(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encodeWithCoder(aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       } \n\n       func copyWithZone(zone: NSZone) -> AnyObject {\n              return self.whc_Copy()\n       } \n\n%@\n}\n")
+#define kSexyJson_CodingCLASS @("\nclass %@ :NSObject, SexyJson, NSCoding {\n \n       required init(coder decoder: NSCoder) {\n              super.init()\n              self.sexy_decode(decoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.sexy_encode(aCoder)\n}\n\n       required override init() {}  \n\n%@\n       }\n")
+
+#define kSexyJson_CopyingCLASS @("\nclass %@ :NSObject, SexyJson, NSCopying {\n \n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.sexy_copy()\n       }\n\n       required override init() {}  \n\n %@\n}\n")
+
+#define kSexyJson_CodingAndCopyingCLASS @("\nclass %@ :NSObject, SexyJson, NSCoding, NSCopying {\n\n       required init(coder decoder: NSCoder) {\n              super.init()\n              self.sexy_decode(decoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.sexy_encode(aCoder)\n       } \n\n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.sexy_copy()\n       }\n\n       required override init() {} \n\n%@\n}\n")
+
+#define kSWHC_CodingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding {\n \n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       }  \n\n%@\n       }\n")
+
+#define kSWHC_CopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCopying {\n \n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       }  \n\n %@\n}\n")
+
+#define kSWHC_CodingAndCopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding, NSCopying {\n\n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       } \n\n       func copy(zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       } \n\n%@\n}\n")
 
 #define kSWHC_PROPERTY @("       var %@: %@!\n")
 #define kSWHC_ASSGIN_PROPERTY @("       var %@: %@\n")
@@ -66,6 +81,14 @@
 #define kInputJsonPlaceholdText @("请输入json或者xml字符串")
 #define kSourcePlaceholdText @("自动生成对象模型类源文件")
 #define kHeaderPlaceholdText @("自动生成对象模型类头文件")
+
+
+typedef enum : NSUInteger {
+    Objc = 0,
+    Swift,
+    SexyJson_struct,
+    SexyJson_class
+} WHCModelType;
 
 @interface ViewController (){
     NSMutableString       *   _classString;        //存类头文件内容
@@ -80,10 +103,14 @@
 @property (nonatomic , strong)IBOutlet  NSTextView  * jsonField;
 @property (nonatomic , strong)IBOutlet  NSTextView  * classField;
 @property (nonatomic , strong)IBOutlet  NSTextView  * classMField;
-@property (nonatomic , strong)IBOutlet  NSButton       * checkBox;
+@property (nonatomic , strong)IBOutlet  NSComboBox       * comboBox;
 @property (nonatomic , strong)IBOutlet  NSButton       * codingCheckBox;
 @property (nonatomic , strong)IBOutlet  NSButton       * copyingCheckBox;
 @property (nonatomic , strong)IBOutlet  NSButton       * checkUpdateButton;
+
+@property (nonatomic , strong) NSArray * comboxTitles;
+@property (nonatomic , assign) BOOL isSwift;
+@property (nonatomic , assign) WHCModelType index;
 @end
 
 @implementation ViewController
@@ -102,6 +129,11 @@
     NSRect frmae = self.view.frame;
     frmae.size.height = 600;
     self.view.frame = frmae;
+    
+    _comboxTitles = @[@"Objective-c",@"WHC_Model(Swift)",@"SexyJson(struct)",@"SexyJson(class)"];
+    [_comboBox addItemsWithObjectValues:_comboxTitles];
+    [_comboBox selectItemWithObjectValue:@"Objective-c"];
+    
     
 }
 
@@ -138,7 +170,6 @@
     _jsonField.backgroundColor = [NSColor colorWithRed:40.0 / 255.0 green:40.0 / 255.0 blue:40.0 / 255.0 alpha:1.0];
     _classMField.backgroundColor = _jsonField.backgroundColor;
     _classField.backgroundColor = _jsonField.backgroundColor;
-    _classMHeightConstraint.constant = 0;
 }
 
 - (IBAction)clickCheckUpdate:(NSButton *)sender {
@@ -153,10 +184,19 @@
 }
 
 - (IBAction)clickRadioButtone:(NSButton *)sender{
-    if (sender == _checkBox) {
-        _classMHeightConstraint.constant = (sender.state == 0 ? 185 : 0);
-    }
+//    if (sender == _checkBox) {
+//        _classMHeightConstraint.constant = (sender.state == 0 ? 185 : 0);
+//    }
     if (_didMake) {
+        [self clickMakeButton:nil];
+    }
+}
+- (IBAction)clickChangeComboBox:(NSComboBox *)sender {
+    _index = sender.indexOfSelectedItem;
+    _isSwift = _index != 0;
+    _classMHeightConstraint.constant = (self.isSwift ? 0 : 180);
+    NSString  * json = _jsonField.textStorage.string;
+    if (json && json.length > 0) {
         [self clickMakeButton:nil];
     }
 }
@@ -202,15 +242,52 @@
 #pragma clang diagnostic pop
             return;
         }
-        if(_checkBox.state == 0){
+        NSString * classContent = [self handleDataEngine:dict key:@""];
+        if(!self.isSwift){
             if (_classPrefixName.length > 0) {
                 [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
             }else {
                 [_classMString appendFormat:kWHC_CLASS_M,className];
             }
-            [_classString appendFormat:kWHC_CLASS,className,[self handleDataEngine:dict key:@""]];
+            if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                [_classString appendFormat:kWHC_CodingAndCopyingCLASS,className,classContent];
+            }else if (_codingCheckBox.state != 0) {
+                [_classString appendFormat:kWHC_CodingCLASS,className,classContent];
+            }else if (_copyingCheckBox.state != 0) {
+                [_classString appendFormat:kWHC_CopyingCLASS,className,classContent];
+            }else {
+                [_classString appendFormat:kWHC_CLASS,className,classContent];
+            }
         }else{
-            [_classString appendFormat:kSWHC_CLASS,className,className,[self handleDataEngine:dict key:@""]];
+            switch (_index) {
+                case SexyJson_class: {
+                    if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                        [_classString appendFormat:kSexyJson_CodingAndCopyingCLASS,className,classContent];
+                    }else if (_codingCheckBox.state != 0) {
+                        [_classString appendFormat:kSexyJson_CodingCLASS,className,classContent];
+                    }else if (_copyingCheckBox.state != 0) {
+                        [_classString appendFormat:kSexyJson_CopyingCLASS,className,classContent];
+                    }else {
+                        [_classString appendFormat:kSexyJson_Class,className,classContent];
+                    }
+                }
+                    break;
+                case SexyJson_struct:
+                    [_classString appendFormat:kSexyJson_Struct,className,[self handleDataEngine:dict key:@""]];
+                    break;
+                default:
+                    if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                        [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                    }else if (_codingCheckBox.state != 0) {
+                        
+                        [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                    }else if (_copyingCheckBox.state != 0) {
+                        [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                    }else {
+                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                    }
+                    break;
+            }
         }
         [self setClassHeaderContent:_classString];
         [self setClassSourceContent:_classMString];
@@ -248,24 +325,22 @@
 - (NSString*)handleDataEngine:(id)object key:(NSString*)key{
     if(object){
         NSMutableString  * property = [NSMutableString new];
+        NSMutableString  * propertyMap = [NSMutableString new];
         if([object isKindOfClass:[NSDictionary class]]){
             NSDictionary  * dict = object;
-            NSInteger       count = dict.count;
-            NSArray       * keyArr = [dict allKeys];
             if (_classPrefixName.length > 0) {
-                if (_checkBox.state == 0) {
+                if (!self.isSwift) {
                     [property appendFormat:kWHC_Prefix_H_Func,_classPrefixName];
                 }else {
                     [property appendFormat:kSWHC_Prefix_Func,_classPrefixName];
                 }
             }
-            for (NSInteger i = 0; i < count; i++) {
-                id subObject = dict[keyArr[i]];
-                NSString * className = [self handleAfterClassName:keyArr[i]];
-                NSString * propertyName = [self handlePropertyName:keyArr[i]];
+            [dict enumerateKeysAndObjectsUsingBlock:^(NSString * key, id  _Nonnull subObject, BOOL * _Nonnull stop) {
+                NSString * className = [self handleAfterClassName:key];
+                NSString * propertyName = [self handlePropertyName:key];
                 if([subObject isKindOfClass:[NSDictionary class]]){
-                    NSString * classContent = [self handleDataEngine:subObject key:keyArr[i]];
-                    if(_checkBox.state == 0){
+                    NSString * classContent = [self handleDataEngine:subObject key:key];
+                    if(!self.isSwift) {
                         [property appendFormat:kWHC_PROPERTY('s'),className,propertyName];
                         if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
                             [_classString appendFormat:kWHC_CodingAndCopyingCLASS,className,classContent];
@@ -290,15 +365,38 @@
                             }
                         }
                     }else{
+                        
                         [property appendFormat:kSWHC_PROPERTY,propertyName,className];
-                        if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
-                            [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
-                        }else if (_codingCheckBox.state != 0) {
-                            [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
-                        }else if (_copyingCheckBox.state != 0) {
-                            [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
-                        }else {
-                            [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                        switch (_index) {
+                            case SexyJson_class:
+                                if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                    [_classString appendFormat:kSexyJson_CodingAndCopyingCLASS,className,classContent];
+                                }else if (_codingCheckBox.state != 0) {
+                                    
+                                    [_classString appendFormat:kSexyJson_CodingCLASS,className,classContent];
+                                }else if (_copyingCheckBox.state != 0) {
+                                    [_classString appendFormat:kSexyJson_CopyingCLASS,className,classContent];
+                                }else {
+                                    [_classString appendFormat:kSexyJson_Class,className,classContent];
+                                }
+                                [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
+                                break;
+                            case SexyJson_struct:
+                                [_classString appendFormat:kSexyJson_Struct,className,classContent];
+                                [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
+                                break;
+                            default:
+                                if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                    [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                                }else if (_codingCheckBox.state != 0) {
+                                    
+                                    [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                                }else if (_copyingCheckBox.state != 0) {
+                                    [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                                }else {
+                                    [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                                }
+                                break;
                         }
                         
                     }
@@ -313,15 +411,17 @@
                     if ([firstValue isKindOfClass:[NSString class]] ||
                         [firstValue isKindOfClass:[NSNumber class]]) {
                         if ([firstValue isKindOfClass:[NSString class]]) {
-                            if(_checkBox.state == 0){
-                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSString"],keyArr[i]];
+                            if(!self.isSwift){
+                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSString"],key];
                             }else{
                                 [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"String"]];
+                                [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                             }
                         }else {
-                            if(_checkBox.state == 0){
-                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSNumber"],keyArr[i]];
+                            if(!self.isSwift){
+                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSNumber"],key];
                             }else{
+                                [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                                 if (strcmp([firstValue objCType], @encode(float)) == 0 ||
                                     strcmp([firstValue objCType], @encode(CGFloat)) == 0) {
                                     [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"CGFloat"]];
@@ -336,10 +436,18 @@
                         }
                     }else {
                     ARRAY_PASER:
-                        classContent = [self handleDataEngine:subObject key:keyArr[i]];
-                        if(_checkBox.state == 0){
+                        classContent = [self handleDataEngine:subObject key:key];
+                        if(!self.isSwift){
                             [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],propertyName];
-                            [_classString appendFormat:kWHC_CLASS,className,classContent];
+                            if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                [_classString appendFormat:kWHC_CodingAndCopyingCLASS,className,classContent];
+                            }else if (_codingCheckBox.state != 0) {
+                                [_classString appendFormat:kWHC_CodingCLASS,className,classContent];
+                            }else if (_copyingCheckBox.state != 0) {
+                                [_classString appendFormat:kWHC_CopyingCLASS,className,classContent];
+                            }else {
+                                [_classString appendFormat:kWHC_CLASS,className,classContent];
+                            }
                             if (_classPrefixName.length > 0) {
                                 [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
                             }else {
@@ -347,17 +455,48 @@
                             }
                         }else{
                             [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",className]];
-                            [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                            switch (_index) {
+                                case SexyJson_class:
+                                    if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                        [_classString appendFormat:kSexyJson_CodingAndCopyingCLASS,className,classContent];
+                                    }else if (_codingCheckBox.state != 0) {
+                                        
+                                        [_classString appendFormat:kSexyJson_CodingCLASS,className,classContent];
+                                    }else if (_copyingCheckBox.state != 0) {
+                                        [_classString appendFormat:kSexyJson_CopyingCLASS,className,classContent];
+                                    }else {
+                                        [_classString appendFormat:kSexyJson_Class,className,classContent];
+                                    }
+                                    [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
+                                    break;
+                                case SexyJson_struct:
+                                    [_classString appendFormat:kSexyJson_Struct,className,classContent];
+                                    [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
+                                    break;
+                                default:
+                                    if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                        [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                                    }else if (_codingCheckBox.state != 0) {
+                                        
+                                        [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                                    }else if (_copyingCheckBox.state != 0) {
+                                        [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                                    }else {
+                                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }else if ([subObject isKindOfClass:[NSString class]]){
-                    if(_checkBox.state == 0){
+                    if(!self.isSwift){
                         [property appendFormat:kWHC_PROPERTY('c'),@"NSString",propertyName];
                     }else{
                         [property appendFormat:kSWHC_PROPERTY,propertyName,@"String"];
+                        [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                     }
                 }else if ([subObject isKindOfClass:[NSNumber class]]){
-                    if(_checkBox.state == 0){
+                    if(!self.isSwift){
                         if (strcmp([subObject objCType], @encode(float)) == 0 ||
                             strcmp([subObject objCType], @encode(CGFloat)) == 0) {
                             [property appendFormat:kWHC_ASSIGN_PROPERTY,@"CGFloat",propertyName];
@@ -369,6 +508,7 @@
                             [property appendFormat:kWHC_ASSIGN_PROPERTY,@"NSInteger",propertyName];
                         }
                     }else{
+                        [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                         if (strcmp([subObject objCType], @encode(float)) == 0 ||
                             strcmp([subObject objCType], @encode(CGFloat)) == 0) {
                             [property appendFormat:kSWHC_ASSGIN_PROPERTY,propertyName,@"CGFloat = 0.0"];
@@ -382,20 +522,22 @@
                     }
                 }else{
                     if(subObject == nil){
-                        if(_checkBox.state == 0){
+                        if(!self.isSwift){
                             [property appendFormat:kWHC_PROPERTY('c'),@"NSString",propertyName];
                         }else{
                             [property appendFormat:kSWHC_PROPERTY,propertyName,@"String"];
+                            [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                         }
                     }else if([subObject isKindOfClass:[NSNull class]]){
-                        if(_checkBox.state == 0){
+                        if(!self.isSwift){
                             [property appendFormat:kWHC_PROPERTY('c'),@"NSString",propertyName];
                         }else{
                             [property appendFormat:kSWHC_PROPERTY,propertyName,@"String"];
+                            [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                         }
                     }
                 }
-            }
+            }];
         }else if ([object isKindOfClass:[NSArray class]]){
             NSArray  * dictArr = object;
             NSUInteger  count = dictArr.count;
@@ -418,6 +560,20 @@
             }
         }else{
             NSLog(@"key = %@",key);
+        }
+        switch (_index) {
+            case SexyJson_struct:
+                if (![property containsString:@"public mutating func sexyMap(_ map: [String : Any])"]) {
+                    [property appendFormat:kSexyJson_Struct_FuncMap,propertyMap];
+                }
+                break;
+            case SexyJson_class:
+                if (![property containsString:@"public func sexyMap(_ map: [String : Any])"]) {
+                    [property appendFormat:kSexyJson_FuncMap,propertyMap];
+                }
+                break;
+            default:
+                break;
         }
         return property;
     }

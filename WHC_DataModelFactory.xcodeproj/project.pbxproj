@@ -15,6 +15,10 @@
 		C3D4D8191AF1D769004DE109 /* WHC_DataModelFactoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D4D8181AF1D769004DE109 /* WHC_DataModelFactoryTests.m */; };
 		C3D4D82C1AF1D9DB004DE109 /* WHC_XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */; };
 		FE1031311DD2BE0100A9F284 /* dict.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1031301DD2BE0100A9F284 /* dict.png */; };
+		FE1BA7101ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1BA7071ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.m */; };
+		FE1BA7111ED02DE6009E8935 /* UIView+WHC_AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1BA7091ED02DE6009E8935 /* UIView+WHC_AutoLayout.m */; };
+		FE1BA7121ED02DE6009E8935 /* UIView+WHC_Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1BA70B1ED02DE6009E8935 /* UIView+WHC_Frame.m */; };
+		FE1BA7131ED02DE6009E8935 /* WHC_StackView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1BA70F1ED02DE6009E8935 /* WHC_StackView.m */; };
 		FED9B1941DD1BFB0004D7873 /* oc.png in Resources */ = {isa = PBXBuildFile; fileRef = FED9B1921DD1BFB0004D7873 /* oc.png */; };
 		FED9B1951DD1BFB0004D7873 /* swift.png in Resources */ = {isa = PBXBuildFile; fileRef = FED9B1931DD1BFB0004D7873 /* swift.png */; };
 /* End PBXBuildFile section */
@@ -45,6 +49,16 @@
 		C3D4D8281AF1D9DB004DE109 /* WHC_XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_XMLParser.h; sourceTree = "<group>"; };
 		C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHC_XMLParser.m; sourceTree = "<group>"; };
 		FE1031301DD2BE0100A9F284 /* dict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dict.png; sourceTree = "<group>"; };
+		FE1BA7061ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+WHC_AutoHeightForCell.h"; sourceTree = "<group>"; };
+		FE1BA7071ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+WHC_AutoHeightForCell.m"; sourceTree = "<group>"; };
+		FE1BA7081ED02DE6009E8935 /* UIView+WHC_AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WHC_AutoLayout.h"; sourceTree = "<group>"; };
+		FE1BA7091ED02DE6009E8935 /* UIView+WHC_AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WHC_AutoLayout.m"; sourceTree = "<group>"; };
+		FE1BA70A1ED02DE6009E8935 /* UIView+WHC_Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WHC_Frame.h"; sourceTree = "<group>"; };
+		FE1BA70B1ED02DE6009E8935 /* UIView+WHC_Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WHC_Frame.m"; sourceTree = "<group>"; };
+		FE1BA70C1ED02DE6009E8935 /* WHC_AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_AutoLayout.h; sourceTree = "<group>"; };
+		FE1BA70D1ED02DE6009E8935 /* WHC_AutoLayoutUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_AutoLayoutUtilities.h; sourceTree = "<group>"; };
+		FE1BA70E1ED02DE6009E8935 /* WHC_StackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_StackView.h; sourceTree = "<group>"; };
+		FE1BA70F1ED02DE6009E8935 /* WHC_StackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHC_StackView.m; sourceTree = "<group>"; };
 		FED9B1921DD1BFB0004D7873 /* oc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oc.png; sourceTree = "<group>"; };
 		FED9B1931DD1BFB0004D7873 /* swift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swift.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +102,7 @@
 		C3D4D7FE1AF1D769004DE109 /* WHC_DataModelFactory */ = {
 			isa = PBXGroup;
 			children = (
+				FE1BA7051ED02DE6009E8935 /* WHC_AutoLayoutKit */,
 				FED9B1911DD1BFB0004D7873 /* images */,
 				C3D4D8231AF1D9DB004DE109 /* WHCLib */,
 				C3D4D8011AF1D769004DE109 /* AppDelegate.h */,
@@ -134,6 +149,23 @@
 				C3D4D8291AF1D9DB004DE109 /* WHC_XMLParser.m */,
 			);
 			path = WHCLib;
+			sourceTree = "<group>";
+		};
+		FE1BA7051ED02DE6009E8935 /* WHC_AutoLayoutKit */ = {
+			isa = PBXGroup;
+			children = (
+				FE1BA7061ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.h */,
+				FE1BA7071ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.m */,
+				FE1BA7081ED02DE6009E8935 /* UIView+WHC_AutoLayout.h */,
+				FE1BA7091ED02DE6009E8935 /* UIView+WHC_AutoLayout.m */,
+				FE1BA70A1ED02DE6009E8935 /* UIView+WHC_Frame.h */,
+				FE1BA70B1ED02DE6009E8935 /* UIView+WHC_Frame.m */,
+				FE1BA70C1ED02DE6009E8935 /* WHC_AutoLayout.h */,
+				FE1BA70D1ED02DE6009E8935 /* WHC_AutoLayoutUtilities.h */,
+				FE1BA70E1ED02DE6009E8935 /* WHC_StackView.h */,
+				FE1BA70F1ED02DE6009E8935 /* WHC_StackView.m */,
+			);
+			path = WHC_AutoLayoutKit;
 			sourceTree = "<group>";
 		};
 		FED9B1911DD1BFB0004D7873 /* images */ = {
@@ -248,9 +280,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE1BA7111ED02DE6009E8935 /* UIView+WHC_AutoLayout.m in Sources */,
 				C3D4D82C1AF1D9DB004DE109 /* WHC_XMLParser.m in Sources */,
 				C3D4D8081AF1D769004DE109 /* ViewController.m in Sources */,
+				FE1BA7121ED02DE6009E8935 /* UIView+WHC_Frame.m in Sources */,
+				FE1BA7131ED02DE6009E8935 /* WHC_StackView.m in Sources */,
 				C3D4D8051AF1D769004DE109 /* main.m in Sources */,
+				FE1BA7101ED02DE6009E8935 /* UITableViewCell+WHC_AutoHeightForCell.m in Sources */,
 				C3D4D8031AF1D769004DE109 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

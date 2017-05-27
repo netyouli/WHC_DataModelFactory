@@ -652,7 +652,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="WHC_DataModelFactory Version: 1.8.4" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="WHC_DataModelFactory Version: 1.8.5" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="1000" height="600"/>
@@ -687,27 +687,13 @@
                                     <action selector="clickMakeButton:" target="XfG-lQ-9wD" id="ZAf-Oq-RtQ"/>
                                 </connections>
                             </button>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="Vcv-YX-8dR">
-                                <rect key="frame" x="228" y="5" width="134" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="B1d-wJ-qdp"/>
-                                    <constraint firstAttribute="height" constant="20" id="gEv-8s-Vtz"/>
-                                </constraints>
-                                <buttonCell key="cell" type="check" title="Swift Model Class" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="anb-Rg-wcY">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="clickRadioButtone:" target="XfG-lQ-9wD" id="NTP-F3-oEr"/>
-                                </connections>
-                            </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="7Gf-j6-RUA">
                                 <rect key="frame" x="378" y="5" width="141" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="J2t-pS-o6M"/>
                                     <constraint firstAttribute="width" constant="137" id="z2i-lQ-I9z"/>
                                 </constraints>
-                                <buttonCell key="cell" type="check" title="Support NSCoding" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yUO-8n-KIW">
+                                <buttonCell key="cell" type="check" title="Support NSCoding" bezelStyle="regularSquare" imagePosition="left" inset="2" id="yUO-8n-KIW">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -721,7 +707,7 @@
                                     <constraint firstAttribute="width" constant="139" id="TDd-oI-80B"/>
                                     <constraint firstAttribute="height" constant="20" id="ftO-7G-zA6"/>
                                 </constraints>
-                                <buttonCell key="cell" type="check" title="Support NSCopying" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tWs-Eo-teT">
+                                <buttonCell key="cell" type="check" title="Support NSCopying" bezelStyle="regularSquare" imagePosition="left" inset="2" id="tWs-Eo-teT">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -853,10 +839,25 @@
                                     <action selector="clickFirstLower:" target="XfG-lQ-9wD" id="KqD-cD-opW"/>
                                 </connections>
                             </button>
+                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bcZ-ir-DtN">
+                                <rect key="frame" x="223" y="3" width="138" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="135" id="mVz-9T-MXB"/>
+                                </constraints>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="ym5-Wo-ZnQ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </comboBoxCell>
+                                <connections>
+                                    <action selector="clickChangeComboBox:" target="XfG-lQ-9wD" id="Pt7-ID-tvF"/>
+                                </connections>
+                            </comboBox>
                         </subviews>
                         <constraints>
                             <constraint firstItem="UsZ-PT-iEM" firstAttribute="top" secondItem="p6T-CP-UzX" secondAttribute="top" constant="-1" id="00U-a4-UvE"/>
-                            <constraint firstItem="7Gf-j6-RUA" firstAttribute="leading" secondItem="Vcv-YX-8dR" secondAttribute="trailing" constant="20" id="41k-Ym-SLZ"/>
+                            <constraint firstItem="bcZ-ir-DtN" firstAttribute="centerY" secondItem="oTl-Uo-gv7" secondAttribute="centerY" id="2Ze-4z-Sk1"/>
+                            <constraint firstItem="bcZ-ir-DtN" firstAttribute="leading" secondItem="oTl-Uo-gv7" secondAttribute="trailing" constant="23" id="3H5-g3-nfX"/>
                             <constraint firstItem="RhV-pz-TPo" firstAttribute="top" secondItem="UsZ-PT-iEM" secondAttribute="bottom" id="6Q4-V6-wVs"/>
                             <constraint firstItem="avv-FM-G7L" firstAttribute="leading" secondItem="UsZ-PT-iEM" secondAttribute="leading" id="BTM-BN-7jU"/>
                             <constraint firstAttribute="bottom" secondItem="oTl-Uo-gv7" secondAttribute="bottom" constant="3" id="C0m-kG-PQ7"/>
@@ -866,16 +867,15 @@
                             <constraint firstAttribute="trailing" secondItem="hTW-08-MJY" secondAttribute="trailing" constant="20" id="JX9-n6-YMp"/>
                             <constraint firstItem="mjs-57-br4" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="LzJ-J8-cZI"/>
                             <constraint firstItem="oTl-Uo-gv7" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="MfC-wW-bgW"/>
-                            <constraint firstItem="Vcv-YX-8dR" firstAttribute="centerY" secondItem="oTl-Uo-gv7" secondAttribute="centerY" id="Rfc-V2-XNT"/>
-                            <constraint firstItem="Vcv-YX-8dR" firstAttribute="leading" secondItem="oTl-Uo-gv7" secondAttribute="trailing" constant="30" id="Sjy-ga-NoP"/>
                             <constraint firstAttribute="trailing" secondItem="mjs-57-br4" secondAttribute="trailing" constant="620" id="Xhf-VQ-nne"/>
                             <constraint firstItem="oTl-Uo-gv7" firstAttribute="top" secondItem="mjs-57-br4" secondAttribute="bottom" constant="5" id="YGN-fC-ZCa"/>
                             <constraint firstItem="QHd-G8-ERv" firstAttribute="leading" secondItem="7Gf-j6-RUA" secondAttribute="trailing" constant="20" id="aTb-4p-rja"/>
+                            <constraint firstItem="7Gf-j6-RUA" firstAttribute="centerY" secondItem="bcZ-ir-DtN" secondAttribute="centerY" id="aW3-qH-V1F"/>
                             <constraint firstItem="NeJ-nA-aAQ" firstAttribute="leading" secondItem="QHd-G8-ERv" secondAttribute="trailing" constant="20" id="cfM-Sn-a1Y"/>
                             <constraint firstItem="avv-FM-G7L" firstAttribute="trailing" secondItem="UsZ-PT-iEM" secondAttribute="trailing" id="fvI-f0-NT3"/>
                             <constraint firstItem="NeJ-nA-aAQ" firstAttribute="centerY" secondItem="QHd-G8-ERv" secondAttribute="centerY" id="gg8-fw-5HN"/>
-                            <constraint firstItem="7Gf-j6-RUA" firstAttribute="centerY" secondItem="Vcv-YX-8dR" secondAttribute="centerY" id="ghf-ek-vXo"/>
                             <constraint firstItem="TJa-WN-UJn" firstAttribute="leading" secondItem="mjs-57-br4" secondAttribute="trailing" id="k8F-Ql-Zo6"/>
+                            <constraint firstItem="7Gf-j6-RUA" firstAttribute="leading" secondItem="bcZ-ir-DtN" secondAttribute="trailing" constant="22" id="ro2-hx-nJc"/>
                             <constraint firstItem="mjs-57-br4" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="sBc-8c-vGh"/>
                             <constraint firstItem="UsZ-PT-iEM" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="410" id="sZz-59-fvO"/>
                             <constraint firstAttribute="trailing" secondItem="UsZ-PT-iEM" secondAttribute="trailing" id="uHI-pp-UhI"/>
@@ -884,13 +884,13 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="checkBox" destination="Vcv-YX-8dR" id="0WC-gS-FTd"/>
                         <outlet property="checkUpdateButton" destination="Fkc-Zd-3JS" id="Aef-Mt-R6A"/>
                         <outlet property="classField" destination="TJa-WN-UJn" id="W8w-pb-v2Y"/>
                         <outlet property="classMField" destination="RhV-pz-TPo" id="5G5-oY-aGp"/>
                         <outlet property="classMHeightConstraint" destination="yPP-6F-74j" id="N2b-Os-bWW"/>
                         <outlet property="classNameField" destination="oTl-Uo-gv7" id="F2K-5t-3rC"/>
                         <outlet property="codingCheckBox" destination="7Gf-j6-RUA" id="6vH-DN-tEb"/>
+                        <outlet property="comboBox" destination="bcZ-ir-DtN" id="CRL-NW-E7F"/>
                         <outlet property="copyingCheckBox" destination="QHd-G8-ERv" id="zyl-a1-Wqv"/>
                         <outlet property="jsonField" destination="p6T-CP-UzX" id="FJM-cz-BlD"/>
                     </connections>
