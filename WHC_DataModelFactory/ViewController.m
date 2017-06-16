@@ -44,7 +44,7 @@
 #define kWHC_PROPERTY(s)    ((s) == 'c' ? @("@property (nonatomic , copy) %@              * %@;\n") : @("@property (nonatomic , strong) %@              * %@;\n"))
 #define kWHC_ASSIGN_PROPERTY    @("@property (nonatomic , assign) %@              %@;\n")
 #define kWHC_CLASS_M     @("@implementation %@\n\n@end\n")
-#define kWHC_CodingCLASS_M     @("@implementation %@\n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n       return self;\n ; \n} \n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n\n@end\n\n")
+#define kWHC_CodingCLASS_M     @("@implementation %@\n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n       return self;\n  \n} \n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n\n@end\n\n")
 
 #define kWHC_CopyingCLASS_M     @("@implementation %@ \n- (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n\n\n@end\n\n")
 #define kWHC_CodingAndCopyingCLASS_M @("@implementation %@ \n- (id)initWithCoder:(NSCoder *)decoder {\n       if (self = [super init]) { \n              [self whc_Decode:decoder]; \n       }\n        return self;\n } \n\n- (void)encodeWithCoder:(NSCoder *)encoder {\n       [self whc_Encode:encoder]; \n} \n\n - (id)copyWithZone:(NSZone *)zone { \n       return [self whc_Copy]; \n} \n \n@end\n\n")
@@ -55,7 +55,7 @@
 
 #define kSWHC_Prefix_Func @("class func prefix() -> String {\n    return \"%@\"\n}\n")
 
-#define kSWHC_CLASS @("\n@objc(%@)\nclass %@ :NSObject{\n%@\n}\n")
+#define kSWHC_CLASS @("\nclass %@ :NSObject {\n%@\n}\n")
 #define kSexyJson_Class @("\nclass %@: SexyJson {\n%@\n}\n")
 #define kSexyJson_Struct @("\nstruct %@: SexyJson {\n%@\n}\n")
 
@@ -63,17 +63,17 @@
 #define kSexyJson_Struct_FuncMap (@"\n       public mutating func sexyMap(_ map: [String : Any]) {\n       %@       \n       }\n")
 #define kSexyJson_Map (@"\n              %@        <<<        map[\"%@\"]")
 
-#define kSexyJson_CodingCLASS @("\nclass %@ :NSObject, SexyJson, NSCoding {\n \n       required init(coder decoder: NSCoder) {\n              super.init()\n              self.sexy_decode(decoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.sexy_encode(aCoder)\n}\n\n       required override init() {}  \n\n%@\n       }\n")
+#define kSexyJson_CodingCLASS @("\nclass %@ :NSObject, SexyJson, NSCoding {\n \n       required init(coder decoder: NSCoder) {\n              super.init()\n              self.sexy_decode(decoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.sexy_encode(aCoder)\n       }\n\n       required override init() {}  \n\n%@\n}\n")
 
 #define kSexyJson_CopyingCLASS @("\nclass %@ :NSObject, SexyJson, NSCopying {\n \n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.sexy_copy()\n       }\n\n       required override init() {}  \n\n %@\n}\n")
 
 #define kSexyJson_CodingAndCopyingCLASS @("\nclass %@ :NSObject, SexyJson, NSCoding, NSCopying {\n\n       required init(coder decoder: NSCoder) {\n              super.init()\n              self.sexy_decode(decoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.sexy_encode(aCoder)\n       } \n\n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.sexy_copy()\n       }\n\n       required override init() {} \n\n%@\n}\n")
 
-#define kSWHC_CodingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding {\n \n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       }  \n\n%@\n       }\n")
+#define kSWHC_CodingCLASS @("\nclass %@ :NSObject, NSCoding {\n \n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       }  \n\n%@\n}\n")
 
-#define kSWHC_CopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCopying {\n \n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       }  \n\n %@\n}\n")
+#define kSWHC_CopyingCLASS @("\nclass %@ :NSObject, NSCopying {\n \n       func copy(with zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       }  \n\n %@\n}\n")
 
-#define kSWHC_CodingAndCopyingCLASS @("\n@objc(%@)\nclass %@ :NSObject, NSCoding, NSCopying {\n\n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       } \n\n       func copy(zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       } \n\n%@\n}\n")
+#define kSWHC_CodingAndCopyingCLASS @("\nclass %@ :NSObject, NSCoding, NSCopying {\n\n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       } \n\n       func copy(zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       } \n\n%@\n}\n")
 
 #define kSWHC_PROPERTY @("       var %@: %@!\n")
 #define kSWHC_ASSGIN_PROPERTY @("       var %@: %@\n")
@@ -127,10 +127,10 @@ typedef enum : NSUInteger {
     [self setClassSourceContent:kSourcePlaceholdText];
     [self setClassHeaderContent:kHeaderPlaceholdText];
     NSRect frmae = self.view.frame;
-    frmae.size.height = 600;
+    frmae.size.height = 800;
     self.view.frame = frmae;
     
-    _comboxTitles = @[@"Objective-c",@"WHC_Model(Swift)",@"SexyJson(struct)",@"SexyJson(class)"];
+    _comboxTitles = @[@"Objective-c",@"Swift",@"SexyJson(struct)",@"SexyJson(class)"];
     [_comboBox addItemsWithObjectValues:_comboxTitles];
     [_comboBox selectItemWithObjectValue:@"Objective-c"];
     
@@ -177,19 +177,19 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)clickFirstLower:(NSButton *)sender {
-    _firstLower = sender.state != 0;
-    if (_didMake) {
+    NSString  * json = _jsonField.textStorage.string;
+    if (json && json.length > 0) {
         [self clickMakeButton:nil];
     }
+
 }
 
 - (IBAction)clickRadioButtone:(NSButton *)sender{
-//    if (sender == _checkBox) {
-//        _classMHeightConstraint.constant = (sender.state == 0 ? 185 : 0);
-//    }
-    if (_didMake) {
+    NSString  * json = _jsonField.textStorage.string;
+    if (json && json.length > 0) {
         [self clickMakeButton:nil];
     }
+
 }
 - (IBAction)clickChangeComboBox:(NSComboBox *)sender {
     _index = sender.indexOfSelectedItem;
@@ -234,7 +234,7 @@ typedef enum : NSUInteger {
                 dict = [NSPropertyListSerialization propertyListWithData:jsonData options:NSPropertyListMutableContainers format:&plistFormat error:&error];
             }
         }
-        if (dict == nil) {
+        if (dict == nil || ![NSJSONSerialization isValidJSONObject:dict]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wdeprecated-declarations"
             NSAlert * alert = [NSAlert alertWithMessageText:@"WHC" defaultButton:@"确定" alternateButton:nil otherButton:nil informativeTextWithFormat:@"未知数据格式无法解析(请提供json字符串或者dictionary字符串)"];
@@ -247,7 +247,15 @@ typedef enum : NSUInteger {
             if (_classPrefixName.length > 0) {
                 [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
             }else {
-                [_classMString appendFormat:kWHC_CLASS_M,className];
+                if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                    [_classMString appendFormat:kWHC_CodingAndCopyingCLASS_M,className];
+                }else if (_codingCheckBox.state != 0) {
+                    [_classMString appendFormat:kWHC_CodingCLASS_M,className];
+                }else if (_copyingCheckBox.state != 0) {
+                    [_classMString appendFormat:kWHC_CopyingCLASS_M,className];
+                }else {
+                    [_classMString appendFormat:kWHC_CLASS_M,className];
+                }
             }
             if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
                 [_classString appendFormat:kWHC_CodingAndCopyingCLASS,className,classContent];
@@ -277,14 +285,14 @@ typedef enum : NSUInteger {
                     break;
                 default:
                     if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
-                        [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                        [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,classContent];
                     }else if (_codingCheckBox.state != 0) {
                         
-                        [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                        [_classString appendFormat:kSWHC_CodingCLASS,className,classContent];
                     }else if (_copyingCheckBox.state != 0) {
-                        [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                        [_classString appendFormat:kSWHC_CopyingCLASS,className,classContent];
                     }else {
-                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                        [_classString appendFormat:kSWHC_CLASS,className,classContent];
                     }
                     break;
             }
@@ -387,14 +395,14 @@ typedef enum : NSUInteger {
                                 break;
                             default:
                                 if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
-                                    [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                                    [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,classContent];
                                 }else if (_codingCheckBox.state != 0) {
                                     
-                                    [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                                    [_classString appendFormat:kSWHC_CodingCLASS,className,classContent];
                                 }else if (_copyingCheckBox.state != 0) {
-                                    [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                                    [_classString appendFormat:kSWHC_CopyingCLASS,className,classContent];
                                 }else {
-                                    [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                                    [_classString appendFormat:kSWHC_CLASS,className,classContent];
                                 }
                                 break;
                         }
@@ -451,7 +459,15 @@ typedef enum : NSUInteger {
                             if (_classPrefixName.length > 0) {
                                 [_classMString appendFormat:kWHC_CLASS_Prefix_M,className,_classPrefixName];
                             }else {
-                                [_classMString appendFormat:kWHC_CLASS_M,className];
+                                if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
+                                    [_classMString appendFormat:kWHC_CodingAndCopyingCLASS_M,className];
+                                }else if (_codingCheckBox.state != 0) {
+                                    [_classMString appendFormat:kWHC_CodingCLASS_M,className];
+                                }else if (_copyingCheckBox.state != 0) {
+                                    [_classMString appendFormat:kWHC_CopyingCLASS_M,className];
+                                }else {
+                                    [_classMString appendFormat:kWHC_CLASS_M,className];
+                                }
                             }
                         }else{
                             [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",className]];
@@ -475,14 +491,14 @@ typedef enum : NSUInteger {
                                     break;
                                 default:
                                     if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
-                                        [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,className,classContent];
+                                        [_classString appendFormat:kSWHC_CodingAndCopyingCLASS,className,classContent];
                                     }else if (_codingCheckBox.state != 0) {
                                         
-                                        [_classString appendFormat:kSWHC_CodingCLASS,className,className,classContent];
+                                        [_classString appendFormat:kSWHC_CodingCLASS,className,classContent];
                                     }else if (_copyingCheckBox.state != 0) {
-                                        [_classString appendFormat:kSWHC_CopyingCLASS,className,className,classContent];
+                                        [_classString appendFormat:kSWHC_CopyingCLASS,className,classContent];
                                     }else {
-                                        [_classString appendFormat:kSWHC_CLASS,className,className,classContent];
+                                        [_classString appendFormat:kSWHC_CLASS,className,classContent];
                                     }
                                     break;
                             }
