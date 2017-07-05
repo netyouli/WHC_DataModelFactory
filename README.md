@@ -1,4 +1,4 @@
-# WHC_ModelFactory iOS开发高效辅助工具！(Version:1.8.6)
+# WHC_ModelFactory iOS开发高效辅助工具！(Version:1.8.7)
 
 简介
 ==============
@@ -10,7 +10,7 @@
 - **咨询**: 712641411
 - **作者**: 吴海超
 
-更新：**去掉swift2.3支持全面支持swift3+同时优化oc模型类kvc生成以及排版格式**
+更新：**修复生成SexyJson的Struct模型类重复bug**
 
 效果
 ==============
