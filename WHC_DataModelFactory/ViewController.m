@@ -281,7 +281,7 @@ typedef enum : NSUInteger {
                 }
                     break;
                 case SexyJson_struct:
-                    [_classString appendFormat:kSexyJson_Struct,className,[self handleDataEngine:dict key:@""]];
+                    [_classString appendFormat:kSexyJson_Struct,className,classContent];
                     break;
                 default:
                     if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
