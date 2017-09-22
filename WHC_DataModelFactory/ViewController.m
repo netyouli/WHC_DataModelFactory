@@ -146,9 +146,25 @@ typedef enum : NSUInteger {
     }
 }
 
+- (NSString *)copyingRight {
+    NSMutableString * value = [NSMutableString string];
+    NSDate * date = [NSDate date];
+    NSDateFormatter * dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSString * dateStr = [dateFormatter stringFromDate:date];
+    [value appendString:@"\n\n/**\n  * Copyright "];
+    [value appendString:[dateStr componentsSeparatedByString:@"-"].firstObject];
+    [value appendString:@" WHC_DataModelFactory\n  * Auto-generated: "];
+    [value appendString:dateStr];
+    [value appendString:@"\n  *\n"];
+    [value appendString:@"  * @author netyouli (whc)\n"];
+    [value appendString:@"  * @github https://github.com/netyouli\n  */\n\n\n"];
+    return value;
+}
+
 - (void)setClassHeaderContent:(NSString *)content {
     if (content != nil) {
-        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:content];
+        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@",[content isEqualToString:kHeaderPlaceholdText] ? @"" : [self copyingRight],content]];
         [_classField.textStorage setAttributedString:attrContent];
         [_classField.textStorage setFont:[NSFont systemFontOfSize:14]];
         [_classField.textStorage setForegroundColor:[NSColor colorWithRed:61.0 / 255.0 green:160.0 / 255.0 blue:151.0 / 255.0 alpha:1.0]];
@@ -157,7 +173,7 @@ typedef enum : NSUInteger {
 
 - (void)setClassSourceContent:(NSString *)content {
     if (content != nil) {
-        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:content];
+        NSMutableAttributedString * attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@",[content isEqualToString:kSourcePlaceholdText] ? @"" : [self copyingRight],content]];
         [_classMField.textStorage setAttributedString:attrContent];
         [_classMField.textStorage setFont:[NSFont systemFontOfSize:14]];
         [_classMField.textStorage setForegroundColor:[NSColor colorWithRed:61.0 / 255.0 green:160.0 / 255.0 blue:151.0 / 255.0 alpha:1.0]];
@@ -177,6 +193,7 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)clickFirstLower:(NSButton *)sender {
+    _firstLower = sender.state == 1;
     NSString  * json = _jsonField.textStorage.string;
     if (json && json.length > 0) {
         [self clickMakeButton:nil];
@@ -420,14 +437,14 @@ typedef enum : NSUInteger {
                         [firstValue isKindOfClass:[NSNumber class]]) {
                         if ([firstValue isKindOfClass:[NSString class]]) {
                             if(!self.isSwift){
-                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSString"],key];
+                                [property appendFormat:kWHC_PROPERTY('c'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSString"],key];
                             }else{
                                 [property appendFormat:kSWHC_PROPERTY,propertyName,[NSString stringWithFormat:@"[%@]",@"String"]];
                                 [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                             }
                         }else {
                             if(!self.isSwift){
-                                [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSNumber"],key];
+                                [property appendFormat:kWHC_PROPERTY('c'),[NSString stringWithFormat:@"NSArray<%@ *>",@"NSNumber"],key];
                             }else{
                                 [propertyMap appendFormat:kSexyJson_Map,propertyName,key];
                                 if (strcmp([firstValue objCType], @encode(float)) == 0 ||
@@ -446,7 +463,7 @@ typedef enum : NSUInteger {
                     ARRAY_PASER:
                         classContent = [self handleDataEngine:subObject key:key];
                         if(!self.isSwift){
-                            [property appendFormat:kWHC_PROPERTY('s'),[NSString stringWithFormat:@"NSArray<%@ *>",className],propertyName];
+                            [property appendFormat:kWHC_PROPERTY('c'),[NSString stringWithFormat:@"NSArray<%@ *>",className],propertyName];
                             if (_codingCheckBox.state != 0 && _copyingCheckBox.state != 0) {
                                 [_classString appendFormat:kWHC_CodingAndCopyingCLASS,className,classContent];
                             }else if (_codingCheckBox.state != 0) {

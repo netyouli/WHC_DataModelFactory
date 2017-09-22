@@ -1,4 +1,4 @@
-# WHC_ModelFactory iOS开发高效辅助工具！(Version:1.8.7)
+# WHC_ModelFactory iOS开发高效辅助工具！(Version:1.8.8)
 
 简介
 ==============
@@ -10,7 +10,7 @@
 - **咨询**: 712641411
 - **作者**: 吴海超
 
-更新：**修复生成SexyJson的Struct模型类重复bug**
+更新：**修改NSArray属性为copy**
 
 效果
 ==============
