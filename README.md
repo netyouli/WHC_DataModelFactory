@@ -10,6 +10,8 @@
 - **咨询**: 712641411
 - **作者**: 吴海超
 
+[web版](https://github.com/netyouli/jsonToClass)
+
 更新：**修改NSArray属性为copy**
 
 效果
