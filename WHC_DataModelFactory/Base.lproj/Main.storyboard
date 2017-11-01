@@ -677,19 +677,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1031" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hTW-08-MJY">
-                                <rect key="frame" x="920" y="7" width="91" height="19"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="91" id="zZI-Wf-0cj"/>
-                                </constraints>
-                                <buttonCell key="cell" type="roundRect" title="转换" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="REa-zu-QpT">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="18" name="STHeitiSC-Light"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="clickMakeButton:" target="XfG-lQ-9wD" id="ZAf-Oq-RtQ"/>
-                                </connections>
-                            </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="7Gf-j6-RUA">
                                 <rect key="frame" x="378" y="5" width="141" height="24"/>
                                 <constraints>
@@ -813,17 +800,30 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fkc-Zd-3JS">
-                                <rect key="frame" x="810" y="7" width="90" height="19"/>
+                            <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Fkc-Zd-3JS">
+                                <rect key="frame" x="794" y="7" width="60" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="9IY-jL-4cF"/>
+                                    <constraint firstAttribute="width" constant="60" id="9IY-jL-4cF"/>
                                 </constraints>
-                                <buttonCell key="cell" type="roundRect" title="检查更新" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xfa-Bn-E8D">
+                                <buttonCell key="cell" type="roundRect" title="官网" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xfa-Bn-E8D">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="18" name="STHeitiSC-Light"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="clickCheckUpdate:" target="XfG-lQ-9wD" id="gUy-cN-Grj"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="b62-Ir-GEN">
+                                <rect key="frame" x="864" y="7" width="60" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="FY8-xi-4A5"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="打赏" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GJc-Ht-1O6">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="18" name="STHeitiSC-Light"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clickCheckUpdate:" target="XfG-lQ-9wD" id="0WC-88-lgS"/>
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="NeJ-nA-aAQ">
@@ -856,6 +856,19 @@
                                     <action selector="clickChangeComboBox:" target="XfG-lQ-9wD" id="Pt7-ID-tvF"/>
                                 </connections>
                             </comboBox>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hTW-08-MJY">
+                                <rect key="frame" x="937" y="7" width="91" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="91" id="QN8-2V-dul"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="转换" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="REa-zu-QpT">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="18" name="STHeitiSC-Light"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clickMakeButton:" target="XfG-lQ-9wD" id="ZAf-Oq-RtQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="UsZ-PT-iEM" firstAttribute="top" secondItem="p6T-CP-UzX" secondAttribute="top" constant="-1" id="00U-a4-UvE"/>
@@ -864,12 +877,12 @@
                             <constraint firstItem="RhV-pz-TPo" firstAttribute="top" secondItem="UsZ-PT-iEM" secondAttribute="bottom" id="6Q4-V6-wVs"/>
                             <constraint firstItem="avv-FM-G7L" firstAttribute="leading" secondItem="UsZ-PT-iEM" secondAttribute="leading" id="BTM-BN-7jU"/>
                             <constraint firstAttribute="bottom" secondItem="oTl-Uo-gv7" secondAttribute="bottom" constant="3" id="C0m-kG-PQ7"/>
-                            <constraint firstItem="hTW-08-MJY" firstAttribute="centerY" secondItem="Fkc-Zd-3JS" secondAttribute="centerY" id="F5i-Jp-OLr"/>
                             <constraint firstItem="QHd-G8-ERv" firstAttribute="baseline" secondItem="7Gf-j6-RUA" secondAttribute="baseline" id="IPU-gp-hxd"/>
-                            <constraint firstItem="hTW-08-MJY" firstAttribute="leading" secondItem="Fkc-Zd-3JS" secondAttribute="trailing" constant="20" id="JJi-yZ-B9x"/>
-                            <constraint firstAttribute="trailing" secondItem="hTW-08-MJY" secondAttribute="trailing" constant="20" id="JX9-n6-YMp"/>
                             <constraint firstItem="mjs-57-br4" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="LzJ-J8-cZI"/>
                             <constraint firstItem="oTl-Uo-gv7" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="MfC-wW-bgW"/>
+                            <constraint firstItem="b62-Ir-GEN" firstAttribute="baseline" secondItem="Fkc-Zd-3JS" secondAttribute="baseline" id="VEI-VY-UVX"/>
+                            <constraint firstItem="hTW-08-MJY" firstAttribute="baseline" secondItem="b62-Ir-GEN" secondAttribute="baseline" id="VFD-3C-2L0"/>
+                            <constraint firstItem="hTW-08-MJY" firstAttribute="leading" secondItem="b62-Ir-GEN" secondAttribute="trailing" constant="13" id="Wow-cQ-4XO"/>
                             <constraint firstAttribute="trailing" secondItem="mjs-57-br4" secondAttribute="trailing" constant="620" id="Xhf-VQ-nne"/>
                             <constraint firstItem="oTl-Uo-gv7" firstAttribute="top" secondItem="mjs-57-br4" secondAttribute="bottom" constant="5" id="YGN-fC-ZCa"/>
                             <constraint firstItem="QHd-G8-ERv" firstAttribute="leading" secondItem="7Gf-j6-RUA" secondAttribute="trailing" constant="20" id="aTb-4p-rja"/>
@@ -878,6 +891,8 @@
                             <constraint firstItem="avv-FM-G7L" firstAttribute="trailing" secondItem="UsZ-PT-iEM" secondAttribute="trailing" id="fvI-f0-NT3"/>
                             <constraint firstItem="NeJ-nA-aAQ" firstAttribute="centerY" secondItem="QHd-G8-ERv" secondAttribute="centerY" id="gg8-fw-5HN"/>
                             <constraint firstItem="TJa-WN-UJn" firstAttribute="leading" secondItem="mjs-57-br4" secondAttribute="trailing" id="k8F-Ql-Zo6"/>
+                            <constraint firstAttribute="trailing" secondItem="hTW-08-MJY" secondAttribute="trailing" constant="3" id="nRT-Mo-Zrd"/>
+                            <constraint firstItem="b62-Ir-GEN" firstAttribute="leading" secondItem="Fkc-Zd-3JS" secondAttribute="trailing" constant="10" id="q9J-M8-rqF"/>
                             <constraint firstItem="7Gf-j6-RUA" firstAttribute="leading" secondItem="bcZ-ir-DtN" secondAttribute="trailing" constant="22" id="ro2-hx-nJc"/>
                             <constraint firstItem="mjs-57-br4" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="sBc-8c-vGh"/>
                             <constraint firstItem="UsZ-PT-iEM" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="410" id="sZz-59-fvO"/>

@@ -189,7 +189,11 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)clickCheckUpdate:(NSButton *)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/netyouli/WHC_DataModelFactory"]];
+    if (sender.tag == 1) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.wuhaichao.com"]];
+    }else if (sender.tag == 2) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.wuhaichao.com/pay/"]];
+    }
 }
 
 - (IBAction)clickFirstLower:(NSButton *)sender {

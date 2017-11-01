@@ -12,6 +12,8 @@
 
 [web版](https://github.com/netyouli/jsonToClass)
 
+[我的个人网站: www.wuhaichao.com](http://www.wuhaichao.com/)
+
 更新：**修改NSArray属性为copy**
 
 效果
