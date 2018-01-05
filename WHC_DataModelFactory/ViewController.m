@@ -75,7 +75,7 @@
 
 #define kSWHC_CodingAndCopyingCLASS @("\nclass %@ :NSObject, NSCoding, NSCopying {\n\n       required init(coder aDecoder: NSCoder) {\n              super.init()\n              self.whc_Decode(aDecoder)\n       }\n\n       func encode(with aCoder: NSCoder) {\n              self.whc_Encode(aCoder)\n       } \n\n       func copy(zone: NSZone? = nil) -> Any {\n              return self.whc_Copy()\n       } \n\n%@\n}\n")
 
-#define kSWHC_PROPERTY @("       var %@: %@!\n")
+#define kSWHC_PROPERTY @("       var %@: %@?\n")
 #define kSWHC_ASSGIN_PROPERTY @("       var %@: %@\n")
 
 #define kInputJsonPlaceholdText @("请输入json或者xml字符串")
@@ -117,11 +117,15 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _classString = [NSMutableString new];
     _classMString = [NSMutableString new];
     _classField.editable = NO;
     _classMField.editable = NO;
     _firstLower = YES;
+//    NSLayoutConstraintAxis
+    [_checkUpdateButton setContentHuggingPriority:<#(NSLayoutPriority)#> forOrientation:(NSLayoutConstraintOrientation)]
+    [_checkUpdateButton setContentCompressionResistancePriority:<#(NSLayoutPriority)#> forOrientation:(NSLayoutConstraintOrientation)];
     // Do any additional setup after loading the view.
     [self setTextViewStyle];
     [self setClassSourceContent:kSourcePlaceholdText];
