@@ -123,9 +123,6 @@ typedef enum : NSUInteger {
     _classField.editable = NO;
     _classMField.editable = NO;
     _firstLower = YES;
-//    NSLayoutConstraintAxis
-    [_checkUpdateButton setContentHuggingPriority:<#(NSLayoutPriority)#> forOrientation:(NSLayoutConstraintOrientation)]
-    [_checkUpdateButton setContentCompressionResistancePriority:<#(NSLayoutPriority)#> forOrientation:(NSLayoutConstraintOrientation)];
     // Do any additional setup after loading the view.
     [self setTextViewStyle];
     [self setClassSourceContent:kSourcePlaceholdText];
