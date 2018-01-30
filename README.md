@@ -14,7 +14,7 @@
 
 [我的个人网站: www.wuhaichao.com](http://www.wuhaichao.com/)
 
-更新：**修改NSArray属性为copy**
+更新：**生成SexyJson模型类支持<<<格式对齐**
 
 效果
 ==============
