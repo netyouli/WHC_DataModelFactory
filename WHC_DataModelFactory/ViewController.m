@@ -603,12 +603,12 @@ typedef enum : NSUInteger {
         switch (_index) {
             case SexyJson_struct:
                 if (![property containsString:@"public mutating func sexyMap(_ map: [String : Any])"]) {
-                    [property appendFormat:kSexyJson_Struct_FuncMap,propertyMap];
+                    [property appendFormat:kSexyJson_Struct_FuncMap,[self autoAlign:propertyMap]];
                 }
                 break;
             case SexyJson_class:
                 if (![property containsString:@"public func sexyMap(_ map: [String : Any])"]) {
-                    [property appendFormat:kSexyJson_FuncMap,propertyMap];
+                    [property appendFormat:kSexyJson_FuncMap,[self autoAlign:propertyMap]];
                 }
                 break;
             default:
@@ -618,6 +618,39 @@ typedef enum : NSUInteger {
     }
     return @"";
 }
+
+- (NSString *)autoAlign:(NSString *)content {
+    NSMutableString * newContent = [NSMutableString new];
+    if (content) {
+        NSArray * rows = [content componentsSeparatedByString:@"\n"];
+        NSInteger maxLen = 0;
+        for (NSString * row in rows) {
+            NSRange range = [row rangeOfString:@"<<<"];
+            if (range.location != NSNotFound) {
+                maxLen = MAX([row rangeOfString:@"<<<"].location, maxLen);
+            }
+        }
+        for (NSString * row in rows) {
+            NSInteger rowindex = [row rangeOfString:@"<<<"].location;
+            if (rowindex < maxLen && rowindex != NSNotFound) {
+                NSInteger dindex = maxLen - rowindex;
+                NSMutableString * blank = [NSMutableString new];
+                for (int i = 0; i < dindex; i++) {
+                    [blank appendString:@" "];
+                }
+                NSMutableString * mrow = row.mutableCopy;
+                [mrow insertString:blank atIndex:rowindex];
+                [newContent appendString:mrow];
+                [newContent appendString:@"\n"];
+            }else {
+                [newContent appendString:row];
+                [newContent appendString:@"\n"];
+            }
+        }
+    }
+    return newContent;
+}
+
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
 
