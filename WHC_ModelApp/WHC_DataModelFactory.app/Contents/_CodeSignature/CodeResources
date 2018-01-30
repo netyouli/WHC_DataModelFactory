@@ -10,19 +10,19 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
-		LTkuAvPjWWz2jHvDbFlOsNzyCiQ=
+		L3U50+Np0vmBr5fLpp4vEApuvPI=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		rdpjXt2vqpDdJkwX90O322TGLMw=
+		0Qc3SDU+E8xsXeECHjPgcqXgKkA=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/NSWindowController-B8D-0N-5wS.nib</key>
 		<data>
-		MWWP62xge6YDn0v/ywgOZlP4Has=
+		pSftd7Z0cNAZSMiceWP89qIPcP4=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/XfG-lQ-9wD-view-m2S-Jp-Qdl.nib</key>
 		<data>
-		yB02E0LeryOpI0sTRg7YWi51lvg=
+		EZ5+5PjhAdLlSixpruzsI2gJi60=
 		</data>
 		<key>Resources/dict.png</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Resources/swift.png</key>
 		<data>
-		f9zML9fQv7Hov6kzSgA7VmBqhUw=
+		sV3FHV9xS7z5TOnlY3jxk5cVkIs=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -54,44 +54,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LTkuAvPjWWz2jHvDbFlOsNzyCiQ=
+			L3U50+Np0vmBr5fLpp4vEApuvPI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Agey92jks0FllTnrVcZ+fzxARgCQUraH45HGK6l9Px8=
+			3R+lIDUP1iB6neB5k7mm13c0N9Fj+6a/Lo5cP3vPu/s=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rdpjXt2vqpDdJkwX90O322TGLMw=
+			0Qc3SDU+E8xsXeECHjPgcqXgKkA=
 			</data>
 			<key>hash2</key>
 			<data>
-			xGVwaGkOW8FU104QXdlhMY1fmerlO7m5ufiY8rNqwOI=
+			/oYtnPpCFS/xZm0AqT4DSxcmLxXxrzZspKE05/bUWpE=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/NSWindowController-B8D-0N-5wS.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MWWP62xge6YDn0v/ywgOZlP4Has=
+			pSftd7Z0cNAZSMiceWP89qIPcP4=
 			</data>
 			<key>hash2</key>
 			<data>
-			tlU9MYkOAlbs//kVTly+CI4MYnHDqO2lDNuC+8CF9h0=
+			JJiHPW4IiIKZutFE6+9fvB6cHVZQ6N2wtyQfDaHlkRE=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/XfG-lQ-9wD-view-m2S-Jp-Qdl.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			yB02E0LeryOpI0sTRg7YWi51lvg=
+			EZ5+5PjhAdLlSixpruzsI2gJi60=
 			</data>
 			<key>hash2</key>
 			<data>
-			ux0pa6Himqu2KtfdxSCwGxeDYTnKZN+WsLiIt5k9WU0=
+			YwWJCXZy5jPNNh6thdp6hFCkmhgtGynm3RQHi3zE/Ek=
 			</data>
 		</dict>
 		<key>Resources/dict.png</key>
@@ -120,11 +120,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			f9zML9fQv7Hov6kzSgA7VmBqhUw=
+			sV3FHV9xS7z5TOnlY3jxk5cVkIs=
 			</data>
 			<key>hash2</key>
 			<data>
-			JsAd7dOS654WMgjgST9MNE7wweQpqBNjTZtOKHrWQrE=
+			wY1hOW+q0mSdSfTIS3yBiBgZU9IYYWExzoBH3lpb/XU=
 			</data>
 		</dict>
 	</dict>
