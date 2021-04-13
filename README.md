@@ -5,16 +5,13 @@
 - **高效**: 自动把json或者xml字符串自动生成模型类文件内容
 - **准确**: 避免手工创建模型类的麻烦和高错误率（提高开发效率）
 - **处理**: 自动生成类名称首字符大写属性名首字母小写
-- **兼容**: 完美支持[WHC_Model](https://github.com/netyouli/WHC_Model)、[SexyJson](https://github.com/netyouli/SexyJson)开源json解析库
-- **强大**: 支持xml/json字符串和dictionary字符串
-- **咨询**: 712641411
-- **作者**: 吴海超
+- **兼容**: 支持xml/json字符串和dictionary字符串
 
-[web版](https://github.com/netyouli/jsonToClass)
+[JavaScript 版本](https://github.com/netyouli/jsonToClass)
 
-[我的个人网站: www.wuhaichao.com](http://www.wuhaichao.com/)
+[个人网站: www.wuhaichao.com/main](http://www.wuhaichao.com/main)
 
-更新：**生成SexyJson模型类支持<<<格式对齐**
+更新：**生成[SexyJson](https://github.com/netyouli/SexyJson)模型类支持<<<格式对齐**
 
 效果
 ==============
@@ -24,15 +21,9 @@
 * Objective-C
 <img src = "https://github.com/netyouli/WHC_DataModelFactory/blob/master/WHC_DataModelFactory/images/oc.png">
 
-子库
-==============
-* 本mac工具对应的亲儿子库OC: [WHC_Model](https://github.com/netyouli/WHC_Model)
-* 本mac工具对应的亲儿子库Swift: [SexyJson](https://github.com/netyouli/SexyJson)
-
 推荐
 ==============
-* iOS平台最强大Sqlite库: [ModelSqliteKit](https://github.com/netyouli/WHC_ModelSqliteKit)
-* iOS平台最好用自动布局库: [AutoLayoutKit](https://github.com/netyouli/WHC_AutoLayoutKit)
+* iOS平台Sqlite ORM库: [ModelSqliteKit](https://github.com/netyouli/WHC_ModelSqliteKit)
 
 使用
 ==============
