@@ -9,8 +9,6 @@
 
 [JavaScript 版本](https://github.com/netyouli/jsonToClass)
 
-[个人网站: www.wuhaichao.com/main](http://www.wuhaichao.com/main)
-
 更新：**生成[SexyJson](https://github.com/netyouli/SexyJson)模型类支持<<<格式对齐**
 
 效果
